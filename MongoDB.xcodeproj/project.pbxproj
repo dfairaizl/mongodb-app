@@ -11,9 +11,9 @@
 		E69CB5921A51D627002C6E0A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E69CB5911A51D627002C6E0A /* Images.xcassets */; };
 		E69CB5951A51D627002C6E0A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E69CB5931A51D627002C6E0A /* Main.storyboard */; };
 		E69CB5A11A51D627002C6E0A /* MongoDBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69CB5A01A51D627002C6E0A /* MongoDBTests.swift */; };
-		E69CB5E01A51E1D3002C6E0A /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69CB5DE1A51E1D3002C6E0A /* MainWindowController.swift */; };
 		E69CB5E81A51F4C6002C6E0A /* MongoDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69CB5E71A51F4C6002C6E0A /* MongoDB.swift */; };
 		E69CB5EB1A51FC23002C6E0A /* NSTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69CB5EA1A51FC23002C6E0A /* NSTask.swift */; };
+		E69CB5ED1A5207E2002C6E0A /* ServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69CB5EC1A5207E2002C6E0A /* ServerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,9 +35,9 @@
 		E69CB59A1A51D627002C6E0A /* MongoDBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MongoDBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E69CB59F1A51D627002C6E0A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E69CB5A01A51D627002C6E0A /* MongoDBTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MongoDBTests.swift; sourceTree = "<group>"; };
-		E69CB5DE1A51E1D3002C6E0A /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		E69CB5E71A51F4C6002C6E0A /* MongoDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MongoDB.swift; sourceTree = "<group>"; };
 		E69CB5EA1A51FC23002C6E0A /* NSTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSTask.swift; sourceTree = "<group>"; };
+		E69CB5EC1A5207E2002C6E0A /* ServerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,7 +142,7 @@
 		E69CB5E51A51E399002C6E0A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				E69CB5DE1A51E1D3002C6E0A /* MainWindowController.swift */,
+				E69CB5EC1A5207E2002C6E0A /* ServerViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -173,6 +173,7 @@
 				E69CB5841A51D627002C6E0A /* Sources */,
 				E69CB5851A51D627002C6E0A /* Frameworks */,
 				E69CB5861A51D627002C6E0A /* Resources */,
+				E69CB5EE1A520A57002C6E0A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -257,15 +258,31 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		E69CB5EE1A520A57002C6E0A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\n\nORIG_INSTALL_ROOT=\"/Applications/MongoDB.app/Contents/Versions/${MONGODB_MAJOR_VERSION}\"\nEXECUTABLE_TARGET_DIR=\"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Versions/${MONGODB_MAJOR_VERSION}\"\n\necho $ORIG_INSTALL_ROOT\necho $EXECUTABLE_TARGET_DIR";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E69CB5841A51D627002C6E0A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E69CB5E01A51E1D3002C6E0A /* MainWindowController.swift in Sources */,
 				E69CB58E1A51D627002C6E0A /* AppDelegate.swift in Sources */,
 				E69CB5E81A51F4C6002C6E0A /* MongoDB.swift in Sources */,
 				E69CB5EB1A51FC23002C6E0A /* NSTask.swift in Sources */,
+				E69CB5ED1A5207E2002C6E0A /* ServerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

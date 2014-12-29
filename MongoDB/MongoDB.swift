@@ -16,14 +16,26 @@ class MongoDB: NSObject {
         return _MongoDBSharedServer
     }
     
-    func mongodVersion() -> NSString {
+    func serverVersion() -> NSString {
         
         let (output, error) = NSTask.executeSyncTask("/usr/local/bin/mongod", withArguments: ["--version"])
         return output!
     }
     
     func startServer() {
+        let args = [""]
+    }
+    
+    func restartServer() {
         NSLog("starting server...")
+    }
+    
+    func stopServer() {
+        NSLog("starting server...")
+    }
+    
+    func isRunning() -> Bool {
+        return false
     }
 
 }

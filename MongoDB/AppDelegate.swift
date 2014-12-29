@@ -11,7 +11,7 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    @IBOutlet var statusMenu: NSMenu!
+    @IBOutlet weak var statusMenu: NSMenu!
     @IBOutlet weak var uiStartServerMenuItem: NSMenuItem!
     @IBOutlet weak var uiRestartServerMenuItem: NSMenuItem!
     
@@ -23,6 +23,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         
         self.setupStatusItemMenu()
+        MongoDB.sharedServer.startServer()
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
@@ -32,11 +33,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: UI Methods
     
     @IBAction func startServer(sender: AnyObject) {
-        MongoDB.sharedServer.startServer()
+
+        if(!MongoDB.sharedServer.isRunning()) {
+            MongoDB.sharedServer.startServer()
+        }
     }
     
     @IBAction func restartServer(sender: AnyObject) {
-        NSLog("restarting server...")
+        MongoDB.sharedServer.restartServer()
     }
     
     // MARK: Private Helper Methods
