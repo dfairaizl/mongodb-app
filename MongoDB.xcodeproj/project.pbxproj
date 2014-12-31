@@ -470,6 +470,7 @@
 				E69CB5A61A51D627002C6E0A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E69CB5A71A51D627002C6E0A /* Build configuration list for PBXNativeTarget "MongoDBTests" */ = {
 			isa = XCConfigurationList;
@@ -478,6 +479,7 @@
 				E69CB5A91A51D627002C6E0A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
