@@ -20,37 +20,45 @@ extension NSTask {
         task.standardError = NSPipe()
         task.standardOutput = NSPipe()
         
-        task.launch()
-        
         var stdOutHandle = task.standardOutput.fileHandleForReading.readDataToEndOfFile()
         var stdErrHandle = task.standardError.fileHandleForReading.readDataToEndOfFile()
         
         let stdOut = NSString(data: stdOutHandle, encoding: NSUTF8StringEncoding)
         let stdErr = NSString(data: stdErrHandle, encoding: NSUTF8StringEncoding)
         
+        task.launch()
         task.waitUntilExit()
         
         return (stdOut, stdErr)
     }
     
-    class func executeAsyncTask(binPath: String, withArguments args: Array<String>) -> (String?, String?) {
+    class func executeAsyncTask(binPath: String, pipe: NSPipe, withArguments args: Array<String>, completion: (_: String) -> Void) {
         
+        let mainQueue = NSOperationQueue.mainQueue()
         var task = NSTask()
         
         task.launchPath = binPath
         task.arguments = args
         
-        task.standardError = NSPipe()
-        task.standardOutput = NSPipe()
+        task.standardOutput = pipe
+        
+        pipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(NSFileHandleDataAvailableNotification, object: pipe.fileHandleForReading, queue: mainQueue, { (note: NSNotification!) -> Void in
+            
+            let handle: NSFileHandle = note.object as NSFileHandle
+            let data = handle.availableData
+            
+            if data.length > 0 {
+                if let stdOut = NSString(data: data, encoding: NSUTF8StringEncoding) {
+                    completion(stdOut)
+                }
+                
+                handle.waitForDataInBackgroundAndNotify()
+            }
+        })
         
         task.launch()
-        
-        var stdOutHandle = task.standardOutput.fileHandleForReading.readDataToEndOfFile()
-        var stdErrHandle = task.standardError.fileHandleForReading.readDataToEndOfFile()
-        
-        let stdOut = NSString(data: stdOutHandle, encoding: NSUTF8StringEncoding)
-        let stdErr = NSString(data: stdErrHandle, encoding: NSUTF8StringEncoding)
-        
-        return (stdOut, stdErr)
+        task.waitUntilExit()
     }
 }

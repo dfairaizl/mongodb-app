@@ -11,6 +11,8 @@ import Cocoa
 private let _MongoDBSharedServer = MongoDB()
 
 class MongoDB: NSObject {
+    
+    var processPipe = NSPipe()
 
     class var sharedServer: MongoDB {
         return _MongoDBSharedServer
@@ -32,9 +34,9 @@ class MongoDB: NSObject {
         let log = self.logFile()!.path!
         let args = ["--fork", "--dbpath=\(db)", "--logpath", "\(log)", "--logappend"]
 
-        let (output, error) = NSTask.executeSyncTask("/usr/local/bin/mongod", withArguments: args)
-        
-        NSLog("starting mongod: \(output!)")
+        NSTask.executeAsyncTask(mongod, pipe: self.processPipe, withArguments: args, { (out: String) -> Void in
+            NSLog("\(out)")
+        })
     }
     
     func restartServer() {
