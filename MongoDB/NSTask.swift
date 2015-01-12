@@ -32,7 +32,7 @@ extension NSTask {
         return (stdOut, stdErr)
     }
     
-    class func runProcess(binPath: String, pipe: NSPipe, withArguments args: Array<String>, completion: (_: String) -> Void) {
+    class func runProcess(binPath: String, pipe: NSPipe, withArguments args: Array<String>, completion: (_: String) -> Void) -> NSTask? {
         let mainQueue = NSOperationQueue.mainQueue()
         var task = NSTask()
         
@@ -58,6 +58,7 @@ extension NSTask {
         })
         
         task.launch()
-        task.waitUntilExit()
+        
+        return task
     }
 }

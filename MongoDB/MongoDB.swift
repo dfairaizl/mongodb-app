@@ -12,6 +12,7 @@ private let _MongoDBSharedServer = MongoDB()
 
 class MongoDB: NSObject {
     
+    var process: NSTask?
     var processPipe = NSPipe()
 
     class var sharedServer: MongoDB {
@@ -20,7 +21,7 @@ class MongoDB: NSObject {
     
     func serverVersion() -> NSString {
       
-        let (output, error) = NSTask.executeSyncTask("/usr/local/bin/mongod", withArguments: ["--version"])
+        let (output, error) = NSTask.executeSyncTask(self.mongodPath(), withArguments: ["--version"])
         return output!
     }
     
@@ -30,9 +31,9 @@ class MongoDB: NSObject {
         
         let db = self.databaseDirectory()!.path!
         let log = self.logFile()!.path!
-        let args = ["--fork", "--dbpath=\(db)", "--logpath", "\(log)", "--logappend"]
+        let args = ["--dbpath=\(db)", "--logpath", "\(log)", "--logappend"]
 
-        NSTask.runProcess(mongod, pipe: self.processPipe, withArguments: args, { (out: String) -> Void in
+        self.process = NSTask.runProcess(mongod, pipe: self.processPipe, withArguments: args, { (out: String) -> Void in
             NSLog("\(out)")
         })
     }
@@ -42,7 +43,7 @@ class MongoDB: NSObject {
     }
     
     func stopServer() {
-        NSLog("starting server...")
+        self.process?.terminate()
     }
     
     func isRunning() -> Bool {
@@ -84,5 +85,4 @@ class MongoDB: NSObject {
         
         return appSupportDir
     }
-
 }
