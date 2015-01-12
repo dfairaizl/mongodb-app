@@ -32,8 +32,7 @@ extension NSTask {
         return (stdOut, stdErr)
     }
     
-    class func executeAsyncTask(binPath: String, pipe: NSPipe, withArguments args: Array<String>, completion: (_: String) -> Void) {
-        
+    class func runProcess(binPath: String, pipe: NSPipe, withArguments args: Array<String>, completion: (_: String) -> Void) {
         let mainQueue = NSOperationQueue.mainQueue()
         var task = NSTask()
         

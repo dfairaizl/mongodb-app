@@ -19,22 +19,20 @@ class MongoDB: NSObject {
     }
     
     func serverVersion() -> NSString {
-        
+      
         let (output, error) = NSTask.executeSyncTask("/usr/local/bin/mongod", withArguments: ["--version"])
         return output!
     }
     
     func startServer() {
-        
-        let manager = NSFileManager.defaultManager()
-        let bundlePath = NSBundle.mainBundle().bundlePath
-        let mongod = bundlePath.stringByAppendingPathComponent("Contents/MongoDB/2.6.6/bin/mongod")
+       
+        let mongod = self.mongodPath()
         
         let db = self.databaseDirectory()!.path!
         let log = self.logFile()!.path!
         let args = ["--fork", "--dbpath=\(db)", "--logpath", "\(log)", "--logappend"]
 
-        NSTask.executeAsyncTask(mongod, pipe: self.processPipe, withArguments: args, { (out: String) -> Void in
+        NSTask.runProcess(mongod, pipe: self.processPipe, withArguments: args, { (out: String) -> Void in
             NSLog("\(out)")
         })
     }
@@ -64,6 +62,12 @@ class MongoDB: NSObject {
     }
     
     private
+    
+    func mongodPath() -> String {
+        
+        let bundlePath = NSBundle.mainBundle().bundlePath
+        return bundlePath.stringByAppendingPathComponent("Contents/MongoDB/2.6.6/bin/mongod")
+    }
     
     func mongoDBDirectory(directory: String) -> NSURL? {
         
