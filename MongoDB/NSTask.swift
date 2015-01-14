@@ -40,6 +40,7 @@ extension NSTask {
         task.arguments = args
         
         task.standardOutput = pipe
+        task.standardError = pipe
         
         pipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
         

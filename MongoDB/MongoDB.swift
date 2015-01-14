@@ -13,7 +13,7 @@ private let _MongoDBSharedServer = MongoDB()
 class MongoDB: NSObject {
     
     var process: NSTask?
-    var processPipe = NSPipe()
+    var processPipe: NSPipe?
 
     class var sharedServer: MongoDB {
         return _MongoDBSharedServer
@@ -32,10 +32,15 @@ class MongoDB: NSObject {
         let db = self.databaseDirectory()!.path!
         let log = self.logFile()!.path!
         let args = ["--dbpath=\(db)", "--logpath", "\(log)", "--logappend"]
+        
+        self.processPipe = NSPipe()
 
-        self.process = NSTask.runProcess(mongod, pipe: self.processPipe, withArguments: args, { (out: String) -> Void in
+        self.process = NSTask.runProcess(mongod, pipe: self.processPipe!, withArguments: args, { (out: String) -> Void in
+            // NOTE - There is no output from mongod when it started successfully in the foreground
             NSLog("\(out)")
         })
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("ServerStartedSuccessfullyNotification", object: nil)
     }
     
     func restartServer() {
@@ -44,10 +49,12 @@ class MongoDB: NSObject {
     
     func stopServer() {
         self.process?.terminate()
+        self.process = nil
+        NSNotificationCenter.defaultCenter().postNotificationName("ServerStoppedSuccessfullyNotification", object: nil)
     }
     
     func isRunning() -> Bool {
-        return false
+        return self.process? != nil
     }
     
     func databaseDirectory() -> NSURL? {
