@@ -11,6 +11,8 @@ import Cocoa
 class ServerViewController: NSViewController {
 
     @IBOutlet weak var serverStatusLabel: NSTextField!
+    @IBOutlet weak var serverStartButton: NSButton!
+    @IBOutlet weak var serverStopButton: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,10 +20,14 @@ class ServerViewController: NSViewController {
         
         NSNotificationCenter.defaultCenter().addObserverForName("ServerStartedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), { (note: NSNotification!) -> Void in
             self.serverStatusLabel.stringValue = "Server Running"
+            self.serverStartButton.enabled = false
+            self.serverStopButton.enabled = true
         })
         
         NSNotificationCenter.defaultCenter().addObserverForName("ServerStoppedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), { (note: NSNotification!) -> Void in
             self.serverStatusLabel.stringValue = "Server Stopped"
+            self.serverStartButton.enabled = true
+            self.serverStopButton.enabled = false
         })
     }
     
