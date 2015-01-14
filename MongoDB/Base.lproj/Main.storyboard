@@ -644,31 +644,54 @@
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="MongoDB" customModuleProvider="target">
                     <connections>
                         <outlet property="statusMenu" destination="jIH-pS-rm7" id="Lpm-HN-aU7"/>
-                        <outlet property="uiRestartServerMenuItem" destination="Qth-hm-4ao" id="96z-qn-bgU"/>
-                        <outlet property="uiStartServerMenuItem" destination="7H8-st-IPV" id="bJX-7k-MLv"/>
+                        <outlet property="uiRestartServerMenuItem" destination="4Wy-Xf-Y2x" id="hqa-3J-vpN"/>
+                        <outlet property="uiStartServerMenuItem" destination="ITM-xZ-vyH" id="Xsl-Jb-GWZ"/>
                     </connections>
                 </customObject>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <menu title="MongoDB" id="jIH-pS-rm7" userLabel="Status Item Menu">
+                <menu title="MongoDB" autoenablesItems="NO" id="jIH-pS-rm7" userLabel="Status Item Menu">
                     <items>
-                        <menuItem title="MongoDB" id="Ku6-9Y-AqH">
+                        <menuItem title="Listening on port 27017" enabled="NO" id="XgB-2z-6MC">
                             <modifierMask key="keyEquivalentModifierMask"/>
-                            <menu key="submenu" title="MongoDB" autoenablesItems="NO" id="C9d-cM-D2e">
+                        </menuItem>
+                        <menuItem isSeparatorItem="YES" id="x28-GQ-1FN"/>
+                        <menuItem title="Start" id="ITM-xZ-vyH">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="startServer:" target="Voe-Tx-rLC" id="0Hz-3e-Xb3"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Stop" id="4Wy-Xf-Y2x">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="restartServer:" target="Voe-Tx-rLC" id="aTN-pe-vLy"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Connection" id="UV4-41-TzD">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <menu key="submenu" title="Connection" id="Ch8-V7-Cly">
                                 <items>
-                                    <menuItem title="Start" id="7H8-st-IPV">
+                                    <menuItem title="Copy Connection String" id="4mR-ek-tW3">
                                         <modifierMask key="keyEquivalentModifierMask"/>
                                         <connections>
-                                            <action selector="startServer:" target="Voe-Tx-rLC" id="wcU-fo-wCH"/>
-                                        </connections>
-                                    </menuItem>
-                                    <menuItem title="Restart" enabled="NO" id="Qth-hm-4ao">
-                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                        <connections>
-                                            <action selector="restartServer:" target="Voe-Tx-rLC" id="h3x-YC-Z72"/>
+                                            <action selector="copyConnectionString:" target="Voe-Tx-rLC" id="4Cr-mE-OOj"/>
                                         </connections>
                                     </menuItem>
                                 </items>
                             </menu>
+                        </menuItem>
+                        <menuItem isSeparatorItem="YES" id="Oen-7b-FQ3"/>
+                        <menuItem title="Open Shell" id="Qpw-tv-Yz3">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="openShell:" target="Voe-Tx-rLC" id="Fkw-WE-Rff"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Open Preferences..." id="4rC-Oc-X3d">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="openPreferences:" target="Voe-Tx-rLC" id="0eM-Go-F1i"/>
+                            </connections>
                         </menuItem>
                     </items>
                 </menu>

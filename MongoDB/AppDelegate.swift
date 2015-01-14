@@ -41,7 +41,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @IBAction func restartServer(sender: AnyObject) {
-        MongoDB.sharedServer.restartServer()
+        MongoDB.sharedServer.stopServer()
+    }
+    
+    @IBAction func openShell(sender: AnyObject) {
+
+    }
+    
+    @IBAction func openPreferences(sender: AnyObject) {
+
+    }
+    
+    @IBAction func copyConnectionString(sender: AnyObject) {
+        NSLog("mongodb://localhost:27017")
     }
     
     // MARK: Private Helper Methods
@@ -59,9 +71,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         self.statusItem.menu = self.statusMenu
         
-        // Disable relevant menu items on startup
+        NSNotificationCenter.defaultCenter().addObserverForName("ServerStartedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), { (note: NSNotification!) -> Void in
+            self.uiStartServerMenuItem.enabled = false
+            self.uiRestartServerMenuItem.enabled = true
+        })
+        
+        NSNotificationCenter.defaultCenter().addObserverForName("ServerStoppedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), { (note: NSNotification!) -> Void in
+            self.uiStartServerMenuItem.enabled = true
+            self.uiRestartServerMenuItem.enabled = false
+        })
+        
+        self.uiStartServerMenuItem.enabled = true
         self.uiRestartServerMenuItem.enabled = false
     }
-
 }
 
