@@ -17,6 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     let systemMenu: NSStatusBar = NSStatusBar.systemStatusBar()
     var statusItem: NSStatusItem!
+    var pasteBoard = NSPasteboard.generalPasteboard()
     
     // MARK: NSApplicationDelegate Methods
 
@@ -53,7 +54,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @IBAction func copyConnectionString(sender: AnyObject) {
-        NSLog("mongodb://localhost:27017")
+        self.pasteBoard.declareTypes([NSPasteboardTypeString], owner: nil)
+        self.pasteBoard.setString("mongodb://localhost:17017", forType: NSPasteboardTypeString)
     }
     
     // MARK: Private Helper Methods
