@@ -36,7 +36,7 @@ class MongoDB: NSObject {
         self.processPipe = NSPipe()
 
         self.process = NSTask.runProcess(mongod, pipe: self.processPipe!, withArguments: args, { (out: String) -> Void in
-            // NOTE - There is no output from mongod when it started successfully in the foreground
+            // NOTE - There is no stdout from mongod when it started successfully in the foreground (output goes to log)
             NSLog("\(out)")
         })
         
