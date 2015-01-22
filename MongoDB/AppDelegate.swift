@@ -7,6 +7,8 @@
 //
 
 import Cocoa
+import Appkit
+import ScriptingBridge
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -46,7 +48,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @IBAction func openShell(sender: AnyObject) {
-
+        
+        MDBTerminalScript.sharedInstance().runCommand("mongo")
     }
     
     @IBAction func openPreferences(sender: AnyObject) {
