@@ -42,7 +42,11 @@
 
 - (void)runCommand:(NSString *)cmd {
     
-    [self.terminalApp doScript:cmd in:nil];
+    TerminalWindow *termWindow = [self.terminalApp.windows lastObject];
+    
+    [self.terminalApp activate];
+    [self.terminalApp doScript:cmd in:[termWindow.tabs firstObject]];
+    
 }
 
 @end
