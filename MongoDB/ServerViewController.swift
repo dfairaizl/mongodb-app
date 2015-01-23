@@ -25,7 +25,7 @@ class ServerViewController: NSViewController {
         })
         
         NSNotificationCenter.defaultCenter().addObserverForName("ServerStoppedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), { (note: NSNotification!) -> Void in
-            self.serverStatusLabel.stringValue = "Server Stopped"
+            self.serverStatusLabel.stringValue = "Server is not running"
             self.serverStartButton.enabled = true
             self.serverStopButton.enabled = false
         })

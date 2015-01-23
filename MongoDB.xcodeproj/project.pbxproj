@@ -66,10 +66,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E69CB57F1A51D627002C6E0A = {
+		E67CC5841A72EE1B00E2AAD2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				E67CC5781A717A2B00E2AAD2 /* ScriptingBridge.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E69CB57F1A51D627002C6E0A = {
+			isa = PBXGroup;
+			children = (
 				E69CB58A1A51D627002C6E0A /* MongoDB */,
 				E69CB59D1A51D627002C6E0A /* MongoDBTests */,
 				E69CB5891A51D627002C6E0A /* Products */,
@@ -92,6 +99,7 @@
 				E69CB58D1A51D627002C6E0A /* AppDelegate.swift */,
 				E69CB5E31A51E35F002C6E0A /* Assets */,
 				E69CB5E91A51FC01002C6E0A /* Extensions */,
+				E67CC5841A72EE1B00E2AAD2 /* Frameworks */,
 				E69CB5E21A51E350002C6E0A /* Interface */,
 				E69CB58B1A51D627002C6E0A /* Supporting Files */,
 			);

@@ -724,17 +724,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zd0-rJ-3d0">
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Zd0-rJ-3d0">
                                 <rect key="frame" x="20" y="55" width="184" height="184"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="184" id="GqL-W5-p6O"/>
+                                    <constraint firstAttribute="width" constant="184" id="OCY-Y1-A2d"/>
+                                </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="MongoDB-Icon" id="FeU-fE-q99"/>
                             </imageView>
-                            <box autoresizesSubviews="NO" fixedFrame="YES" borderType="line" translatesAutoresizingMaskIntoConstraints="NO" id="4vw-S2-gBC">
+                            <box autoresizesSubviews="NO" borderType="line" translatesAutoresizingMaskIntoConstraints="NO" id="4vw-S2-gBC">
                                 <rect key="frame" x="244" y="52" width="219" height="136"/>
                                 <view key="contentView">
                                     <rect key="frame" x="1" y="1" width="217" height="120"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FXq-LJ-dwL">
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FXq-LJ-dwL">
                                             <rect key="frame" x="51" y="75" width="114" height="32"/>
                                             <buttonCell key="cell" type="push" title="Start Server" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7FJ-Xo-USY">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -744,7 +748,7 @@
                                                 <action selector="startServer:" target="XfG-lQ-9wD" id="6SZ-oM-fFj"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O8C-S0-7TG">
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="O8C-S0-7TG">
                                             <rect key="frame" x="52" y="42" width="113" height="32"/>
                                             <buttonCell key="cell" type="push" title="Stop Server" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NJM-cr-hU8">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -754,7 +758,7 @@
                                                 <action selector="stopServer:" target="XfG-lQ-9wD" id="2sA-tm-XL8"/>
                                             </connections>
                                         </button>
-                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IPO-vq-eKj">
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IPO-vq-eKj">
                                             <rect key="frame" x="44" y="21" width="136" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Server is not running" id="qBm-qo-PmG">
                                                 <font key="font" metaFont="system"/>
@@ -762,39 +766,71 @@
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L1S-eu-94a">
+                                        <imageView translatesAutoresizingMaskIntoConstraints="NO" id="L1S-eu-94a">
                                             <rect key="frame" x="23" y="21" width="16" height="16"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="16" id="1Gj-70-Zrp"/>
+                                                <constraint firstAttribute="height" constant="16" id="VGT-VV-dBQ"/>
+                                            </constraints>
                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="NSStatusAvailable" id="wOh-hR-2nc"/>
                                         </imageView>
                                     </subviews>
                                 </view>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="132" id="0c2-9Y-di9"/>
+                                    <constraint firstItem="IPO-vq-eKj" firstAttribute="leading" secondItem="L1S-eu-94a" secondAttribute="trailing" constant="7" id="2Cf-hD-VGe"/>
+                                    <constraint firstItem="O8C-S0-7TG" firstAttribute="leading" secondItem="4vw-S2-gBC" secondAttribute="leading" constant="56" id="2ah-c9-zZ4"/>
+                                    <constraint firstAttribute="width" constant="213" id="Bd9-8d-7ke"/>
+                                    <constraint firstItem="L1S-eu-94a" firstAttribute="centerY" secondItem="IPO-vq-eKj" secondAttribute="centerY" id="MXC-Jf-b0a"/>
+                                    <constraint firstItem="O8C-S0-7TG" firstAttribute="top" secondItem="FXq-LJ-dwL" secondAttribute="bottom" constant="12" id="Rdp-jL-ujU"/>
+                                    <constraint firstItem="IPO-vq-eKj" firstAttribute="top" secondItem="O8C-S0-7TG" secondAttribute="bottom" constant="11" id="Vy2-Qc-3pa"/>
+                                    <constraint firstAttribute="centerX" secondItem="IPO-vq-eKj" secondAttribute="centerX" constant="-3.5" id="Y7W-uz-R8Y"/>
+                                    <constraint firstItem="FXq-LJ-dwL" firstAttribute="leading" secondItem="4vw-S2-gBC" secondAttribute="leading" constant="55" id="i5e-SG-77g"/>
+                                    <constraint firstItem="FXq-LJ-dwL" firstAttribute="top" secondItem="4vw-S2-gBC" secondAttribute="top" constant="32" id="o2i-p9-ge2"/>
+                                </constraints>
                                 <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                 <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </box>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gDk-8Y-386">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gDk-8Y-386">
                                 <rect key="frame" x="247" y="174" width="215" height="65"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="6EL-x0-WB1"/>
+                                    <constraint firstAttribute="width" constant="211" id="kc8-TO-esK"/>
+                                </constraints>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Welcome to MongoDB! You now have server running locally and you can start developing." id="2i8-gL-GBo">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lpU-Qb-k12">
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lpU-Qb-k12">
                                 <rect key="frame" x="24" y="13" width="91" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="79" id="KXT-PD-w5c"/>
+                                    <constraint firstAttribute="height" constant="21" id="M74-mH-mY4"/>
+                                </constraints>
                                 <buttonCell key="cell" type="push" title="Settings" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="f48-QW-FWH">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yqR-uj-tg3">
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yqR-uj-tg3">
                                 <rect key="frame" x="110" y="13" width="91" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="BCE-4T-vWc"/>
+                                    <constraint firstAttribute="width" constant="79" id="l7K-dW-Ao4"/>
+                                </constraints>
                                 <buttonCell key="cell" type="push" title="Help" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6iv-40-pTX">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oY1-Zi-MWv">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oY1-Zi-MWv">
                                 <rect key="frame" x="354" y="31" width="108" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="17" id="e4Q-i5-lxb"/>
+                                    <constraint firstAttribute="width" constant="104" id="wRH-pA-IHf"/>
+                                </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="MongoDB v2.6.6" id="WrX-WE-gPH">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -802,6 +838,20 @@
                                 </textFieldCell>
                             </textField>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="yqR-uj-tg3" firstAttribute="top" secondItem="Zd0-rJ-3d0" secondAttribute="bottom" constant="14" id="6Zn-c2-Ux7"/>
+                            <constraint firstItem="lpU-Qb-k12" firstAttribute="top" secondItem="Zd0-rJ-3d0" secondAttribute="bottom" constant="14" id="Bb9-ZZ-yN4"/>
+                            <constraint firstItem="lpU-Qb-k12" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="30" id="Gpe-pb-9fN"/>
+                            <constraint firstItem="oY1-Zi-MWv" firstAttribute="leading" secondItem="yqR-uj-tg3" secondAttribute="trailing" constant="161" id="Lry-EU-Z7p"/>
+                            <constraint firstItem="Zd0-rJ-3d0" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="31" id="QdG-MY-xIS"/>
+                            <constraint firstItem="gDk-8Y-386" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="31" id="Tfz-Rn-L5r"/>
+                            <constraint firstItem="oY1-Zi-MWv" firstAttribute="top" secondItem="4vw-S2-gBC" secondAttribute="bottom" constant="8" id="Tlk-eB-oJV"/>
+                            <constraint firstItem="Zd0-rJ-3d0" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="Tmy-4T-b6s"/>
+                            <constraint firstItem="gDk-8Y-386" firstAttribute="leading" secondItem="Zd0-rJ-3d0" secondAttribute="trailing" constant="45" id="j3e-TP-lUp"/>
+                            <constraint firstItem="4vw-S2-gBC" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="82" id="kQ7-Dp-IpP"/>
+                            <constraint firstItem="yqR-uj-tg3" firstAttribute="leading" secondItem="lpU-Qb-k12" secondAttribute="trailing" constant="7" id="mNn-8o-BUF"/>
+                            <constraint firstItem="4vw-S2-gBC" firstAttribute="leading" secondItem="Zd0-rJ-3d0" secondAttribute="trailing" constant="43" id="sQg-Hc-WyD"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="serverStartButton" destination="FXq-LJ-dwL" id="RR1-Fd-Y7r"/>
