@@ -41,4 +41,8 @@ class ServerViewController: NSViewController {
     @IBAction func stopServer(sender: AnyObject) {
         MongoDB.sharedServer.stopServer()
     }
+    
+    @IBAction func launchHelp(sender: AnyObject) {
+        NSWorkspace.sharedWorkspace().openURL(NSURL(string: "http://docs.mongodb.org/manual/")!)
+    }
 }
