@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E67CC5791A717A2B00E2AAD2 /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E67CC5781A717A2B00E2AAD2 /* ScriptingBridge.framework */; };
 		E67CC5821A717F4100E2AAD2 /* TerminalScript.m in Sources */ = {isa = PBXBuildFile; fileRef = E67CC5811A717F4100E2AAD2 /* TerminalScript.m */; };
+		E67F6E861A72FA7A00FC8113 /* mongodb.conf in CopyFiles */ = {isa = PBXBuildFile; fileRef = E67F6E841A72FA4B00FC8113 /* mongodb.conf */; };
 		E69CB58E1A51D627002C6E0A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69CB58D1A51D627002C6E0A /* AppDelegate.swift */; };
 		E69CB5921A51D627002C6E0A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E69CB5911A51D627002C6E0A /* Images.xcassets */; };
 		E69CB5951A51D627002C6E0A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E69CB5931A51D627002C6E0A /* Main.storyboard */; };
@@ -28,10 +29,24 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		E67F6E821A72FA1000FC8113 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/MongoDB";
+			dstSubfolderSpec = 0;
+			files = (
+				E67F6E861A72FA7A00FC8113 /* mongodb.conf in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		E67CC5781A717A2B00E2AAD2 /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		E67CC5811A717F4100E2AAD2 /* TerminalScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalScript.m; sourceTree = "<group>"; };
 		E67CC5831A717F9400E2AAD2 /* TerminalScript.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TerminalScript.h; sourceTree = "<group>"; };
+		E67F6E841A72FA4B00FC8113 /* mongodb.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mongodb.conf; sourceTree = "<group>"; };
 		E69055991A702D8300CB94CA /* Terminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Terminal.h; sourceTree = "<group>"; };
 		E690559A1A702E4300CB94CA /* MongoDB-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MongoDB-Bridging-Header.h"; sourceTree = "<group>"; };
 		E69CB5881A51D627002C6E0A /* MongoDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MongoDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -66,12 +81,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		773516251A74092400B278DA /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				E690559A1A702E4300CB94CA /* MongoDB-Bridging-Header.h */,
+				E69055991A702D8300CB94CA /* Terminal.h */,
+				E67CC5831A717F9400E2AAD2 /* TerminalScript.h */,
+				E67CC5811A717F4100E2AAD2 /* TerminalScript.m */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
 		E67CC5841A72EE1B00E2AAD2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				E67CC5781A717A2B00E2AAD2 /* ScriptingBridge.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E67F6E831A72FA3C00FC8113 /* config */ = {
+			isa = PBXGroup;
+			children = (
+				E67F6E841A72FA4B00FC8113 /* mongodb.conf */,
+			);
+			name = config;
 			sourceTree = "<group>";
 		};
 		E69CB57F1A51D627002C6E0A = {
@@ -109,11 +143,8 @@
 		E69CB58B1A51D627002C6E0A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E67F6E831A72FA3C00FC8113 /* config */,
 				E69CB58C1A51D627002C6E0A /* Info.plist */,
-				E690559A1A702E4300CB94CA /* MongoDB-Bridging-Header.h */,
-				E69055991A702D8300CB94CA /* Terminal.h */,
-				E67CC5831A717F9400E2AAD2 /* TerminalScript.h */,
-				E67CC5811A717F4100E2AAD2 /* TerminalScript.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -154,8 +185,9 @@
 		E69CB5E41A51E36B002C6E0A /* App */ = {
 			isa = PBXGroup;
 			children = (
-				E69CB5E61A51F4A6002C6E0A /* Server */,
 				E69CB5E51A51E399002C6E0A /* Controllers */,
+				E69CB5E61A51F4A6002C6E0A /* Server */,
+				773516251A74092400B278DA /* Support */,
 			);
 			name = App;
 			sourceTree = "<group>";
@@ -195,6 +227,7 @@
 				E69CB5851A51D627002C6E0A /* Frameworks */,
 				E69CB5861A51D627002C6E0A /* Resources */,
 				E69CB5EE1A520A57002C6E0A /* ShellScript */,
+				E67F6E821A72FA1000FC8113 /* CopyFiles */,
 			);
 			buildRules = (
 			);
