@@ -13,6 +13,7 @@ class ServerViewController: NSViewController {
     @IBOutlet weak var serverStatusLabel: NSTextField!
     @IBOutlet weak var serverStartButton: NSButton!
     @IBOutlet weak var serverStopButton: NSButton!
+    @IBOutlet weak var serverStatusImageView: NSImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,12 +23,16 @@ class ServerViewController: NSViewController {
             self.serverStatusLabel.stringValue = "Server Running"
             self.serverStartButton.enabled = false
             self.serverStopButton.enabled = true
+            
+            self.serverStatusImageView.image = NSImage(named: NSImageNameStatusAvailable)
         })
         
         NSNotificationCenter.defaultCenter().addObserverForName("ServerStoppedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), { (note: NSNotification!) -> Void in
             self.serverStatusLabel.stringValue = "Server is not running"
             self.serverStartButton.enabled = true
             self.serverStopButton.enabled = false
+            
+            self.serverStatusImageView.image = NSImage(named: NSImageNameStatusUnavailable)
         })
     }
     

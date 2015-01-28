@@ -858,6 +858,7 @@
                     </view>
                     <connections>
                         <outlet property="serverStartButton" destination="FXq-LJ-dwL" id="RR1-Fd-Y7r"/>
+                        <outlet property="serverStatusImageView" destination="L1S-eu-94a" id="f6a-Lk-ued"/>
                         <outlet property="serverStatusLabel" destination="IPO-vq-eKj" id="8Ti-8d-3CN"/>
                         <outlet property="serverStopButton" destination="O8C-S0-7TG" id="tWk-yY-wOH"/>
                     </connections>
