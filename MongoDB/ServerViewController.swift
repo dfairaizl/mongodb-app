@@ -20,6 +20,9 @@ class ServerViewController: NSViewController {
         super.viewDidLoad()
         // Do view setup here.
       
+        self.iconImageView.wantsLayer = true
+        self.iconImageView.layerUsesCoreImageFilters = true
+      
         // Setup icon filter
         let image = self.iconImageView.image
         var colorFilter = CIFilter(name: "CIColorMonochrome")
@@ -31,27 +34,48 @@ class ServerViewController: NSViewController {
             colorFilter.setValue(CIColor(red: 50, green: 50, blue: 50, alpha: 1.0), forKey: "inputColor")
             colorFilter.setValue(0.8, forKey: "inputIntensity")
          
-            self.iconImageView.contentFilters = [colorFilter]
+            self.iconImageView.layer!.filters = [colorFilter]
         }
-      
-        NSAnimationContext.runAnimationGroup({ (context: NSAnimationContext!) -> Void in
-            context.duration = 3.0
-            self.iconImageView.setValue(0.0, forKey: "contentFilters.monochromeFilter.inputIntensity")
-        }, completionHandler: nil)
       
         NSNotificationCenter.defaultCenter().addObserverForName("ServerStartedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), { (note: NSNotification!) -> Void in
             self.serverStatusLabel.stringValue = "Server Running"
          
             self.serverStatusImageView.image = NSImage(named: NSImageNameStatusAvailable)
+         
+            NSAnimationContext.runAnimationGroup({ (context: NSAnimationContext!) in
+
+               var animation = CABasicAnimation(keyPath: "filters.monochromeFilter.inputIntensity")
+               animation.toValue = 0.0
+               animation.fromValue = 0.8
+               animation.fillMode = kCAFillModeForwards
+               animation.duration = 1.0
+               animation.removedOnCompletion = false
+               
+               self.iconImageView.layer!.addAnimation(animation, forKey: "colorAnimation")
+               
+            }, completionHandler: nil)
         })
         
         NSNotificationCenter.defaultCenter().addObserverForName("ServerStoppedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), { (note: NSNotification!) -> Void in
             self.serverStatusLabel.stringValue = "Server is not running"
             
             self.serverStatusImageView.image = NSImage(named: NSImageNameStatusUnavailable)
+         
+         NSAnimationContext.runAnimationGroup({ (context: NSAnimationContext!) in
+            
+            var animation = CABasicAnimation(keyPath: "filters.monochromeFilter.inputIntensity")
+            animation.toValue = 0.8
+            animation.fromValue = 0.0
+            animation.fillMode = kCAFillModeForwards
+            animation.duration = 1.0
+            animation.removedOnCompletion = false
+            
+            self.iconImageView.layer!.addAnimation(animation, forKey: "colorAnimation")
+            
+            }, completionHandler: nil)
         })
     }
-    
+   
     @IBAction func startServer(sender: AnyObject) {
         
         if(!MongoDB.sharedServer.isRunning()) {

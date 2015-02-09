@@ -24,7 +24,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         
         self.setupStatusItemMenu()
-//        MongoDB.sharedServer.startServer()
+        MongoDB.sharedServer.startServer()
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
