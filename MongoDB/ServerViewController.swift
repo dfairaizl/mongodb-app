@@ -37,43 +37,7 @@ class ServerViewController: NSViewController {
             self.iconImageView.layer!.filters = [colorFilter]
         }
       
-        NSNotificationCenter.defaultCenter().addObserverForName("ServerStartedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), { (note: NSNotification!) -> Void in
-            self.serverStatusLabel.stringValue = "Server Running"
-         
-            self.serverStatusImageView.image = NSImage(named: NSImageNameStatusAvailable)
-         
-            NSAnimationContext.runAnimationGroup({ (context: NSAnimationContext!) in
-
-               var animation = CABasicAnimation(keyPath: "filters.monochromeFilter.inputIntensity")
-               animation.toValue = 0.0
-               animation.fromValue = 0.8
-               animation.fillMode = kCAFillModeForwards
-               animation.duration = 1.0
-               animation.removedOnCompletion = false
-               
-               self.iconImageView.layer!.addAnimation(animation, forKey: "colorAnimation")
-               
-            }, completionHandler: nil)
-        })
-        
-        NSNotificationCenter.defaultCenter().addObserverForName("ServerStoppedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), { (note: NSNotification!) -> Void in
-            self.serverStatusLabel.stringValue = "Server is not running"
-            
-            self.serverStatusImageView.image = NSImage(named: NSImageNameStatusUnavailable)
-         
-         NSAnimationContext.runAnimationGroup({ (context: NSAnimationContext!) in
-            
-            var animation = CABasicAnimation(keyPath: "filters.monochromeFilter.inputIntensity")
-            animation.toValue = 0.8
-            animation.fromValue = 0.0
-            animation.fillMode = kCAFillModeForwards
-            animation.duration = 1.0
-            animation.removedOnCompletion = false
-            
-            self.iconImageView.layer!.addAnimation(animation, forKey: "colorAnimation")
-            
-            }, completionHandler: nil)
-        })
+        self.registerServerNotifications()
     }
    
     @IBAction func startServer(sender: AnyObject) {
@@ -90,4 +54,49 @@ class ServerViewController: NSViewController {
     @IBAction func launchHelp(sender: AnyObject) {
         NSWorkspace.sharedWorkspace().openURL(NSURL(string: "http://docs.mongodb.org/manual/")!)
     }
+   
+   // MARK: Private
+   
+   func registerServerNotifications() {
+      
+      NSNotificationCenter.defaultCenter().addObserverForName("ServerStartedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), { (note: NSNotification!) -> Void in
+         
+         self.serverStatusLabel.stringValue = "Connected to localhost"
+         
+         self.serverStatusImageView.image = NSImage(named: NSImageNameStatusAvailable)
+         
+         NSAnimationContext.runAnimationGroup({ (context: NSAnimationContext!) in
+            
+            var animation = CABasicAnimation(keyPath: "filters.monochromeFilter.inputIntensity")
+            animation.toValue = 0.0
+            animation.fromValue = 0.8
+            animation.fillMode = kCAFillModeForwards
+            animation.duration = 1.0
+            animation.removedOnCompletion = false
+            
+            self.iconImageView.layer!.addAnimation(animation, forKey: "colorAnimation")
+            
+            }, completionHandler: nil)
+      })
+      
+      NSNotificationCenter.defaultCenter().addObserverForName("ServerStoppedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), { (note: NSNotification!) -> Void in
+         
+         self.serverStatusLabel.stringValue = "Not connected"
+         
+         self.serverStatusImageView.image = NSImage(named: NSImageNameStatusUnavailable)
+         
+         NSAnimationContext.runAnimationGroup({ (context: NSAnimationContext!) in
+            
+            var animation = CABasicAnimation(keyPath: "filters.monochromeFilter.inputIntensity")
+            animation.toValue = 0.8
+            animation.fromValue = 0.0
+            animation.fillMode = kCAFillModeForwards
+            animation.duration = 1.0
+            animation.removedOnCompletion = false
+            
+            self.iconImageView.layer!.addAnimation(animation, forKey: "colorAnimation")
+            
+            }, completionHandler: nil)
+      })
+   }
 }
