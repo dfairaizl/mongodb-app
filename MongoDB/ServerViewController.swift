@@ -16,23 +16,32 @@ class ServerViewController: NSViewController {
     @IBOutlet weak var serverStopButton: NSButton!
     @IBOutlet weak var serverStatusImageView: NSImageView!
     
-    var colorFilter = CIFilter(name: "CIColorMonochrome")
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
       
-        self.colorFilter.setDefaults()
-        self.colorFilter.setValue(1.0, forKey: "inputIntensity")
+        // Setup icon filter
+        let image = self.iconImageView.image
+        var colorFilter = CIFilter(name: "CIColorMonochrome")
+      
+        if let oringinalImage = image {
+            colorFilter.setDefaults()
+            colorFilter.name = "monochromeFilter"
+            colorFilter.setValue(CIImage(data: oringinalImage.TIFFRepresentation), forKey: "inputImage")
+            colorFilter.setValue(CIColor(red: 50, green: 50, blue: 50, alpha: 1.0), forKey: "inputColor")
+            colorFilter.setValue(0.8, forKey: "inputIntensity")
+         
+            self.iconImageView.contentFilters = [colorFilter]
+        }
       
         NSAnimationContext.runAnimationGroup({ (context: NSAnimationContext!) -> Void in
             context.duration = 3.0
-//            self.iconImageView.contentFilters = [self.colorFilter]
+            self.iconImageView.setValue(0.0, forKey: "contentFilters.monochromeFilter.inputIntensity")
         }, completionHandler: nil)
-        
+      
         NSNotificationCenter.defaultCenter().addObserverForName("ServerStartedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), { (note: NSNotification!) -> Void in
             self.serverStatusLabel.stringValue = "Server Running"
-
+         
             self.serverStatusImageView.image = NSImage(named: NSImageNameStatusAvailable)
         })
         
