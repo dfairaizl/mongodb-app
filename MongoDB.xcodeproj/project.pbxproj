@@ -17,6 +17,9 @@
 		E69CB5E81A51F4C6002C6E0A /* MongoDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69CB5E71A51F4C6002C6E0A /* MongoDB.swift */; };
 		E69CB5EB1A51FC23002C6E0A /* NSTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69CB5EA1A51FC23002C6E0A /* NSTask.swift */; };
 		E69CB5ED1A5207E2002C6E0A /* ServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69CB5EC1A5207E2002C6E0A /* ServerViewController.swift */; };
+		E6BB4D811A8BD000006477BB /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6BB4D7F1A8BD000006477BB /* PreferencesViewController.swift */; };
+		E6BB4D841A8BEBC0006477BB /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = E6BB4D831A8BEBC0006477BB /* defaults.plist */; };
+		E6BB4D851A8BF151006477BB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E69CB58C1A51D627002C6E0A /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +62,8 @@
 		E69CB5E71A51F4C6002C6E0A /* MongoDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MongoDB.swift; sourceTree = "<group>"; };
 		E69CB5EA1A51FC23002C6E0A /* NSTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSTask.swift; sourceTree = "<group>"; };
 		E69CB5EC1A5207E2002C6E0A /* ServerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 3; lastKnownFileType = sourcecode.swift; path = ServerViewController.swift; sourceTree = "<group>"; };
+		E6BB4D7F1A8BD000006477BB /* PreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
+		E6BB4D831A8BEBC0006477BB /* defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				E69CB58C1A51D627002C6E0A /* Info.plist */,
+				E6BB4D831A8BEBC0006477BB /* defaults.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -186,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				E69CB5EC1A5207E2002C6E0A /* ServerViewController.swift */,
+				E6BB4D7F1A8BD000006477BB /* PreferencesViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -294,7 +301,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6BB4D851A8BF151006477BB /* Info.plist in Resources */,
 				E69CB5921A51D627002C6E0A /* Images.xcassets in Resources */,
+				E6BB4D841A8BEBC0006477BB /* defaults.plist in Resources */,
 				E69CB5951A51D627002C6E0A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -333,6 +342,7 @@
 				E65EC93D1A814DF600710BCD /* NSImageView.swift in Sources */,
 				E69CB5E81A51F4C6002C6E0A /* MongoDB.swift in Sources */,
 				E69CB5EB1A51FC23002C6E0A /* NSTask.swift in Sources */,
+				E6BB4D811A8BD000006477BB /* PreferencesViewController.swift in Sources */,
 				E67CC5821A717F4100E2AAD2 /* TerminalScript.m in Sources */,
 				E69CB5ED1A5207E2002C6E0A /* ServerViewController.swift in Sources */,
 			);

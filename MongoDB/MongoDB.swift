@@ -86,6 +86,8 @@ class MongoDB: NSObject {
                 defaultValues.setValue(true, forKey: "autoUpdate")
 
                 userDefaults.registerDefaults(defaultValues)
+                
+                NSUserDefaultsController.sharedUserDefaultsController().initialValues = defaultValues
             }
         }
     }
