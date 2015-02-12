@@ -14,6 +14,20 @@ class MongoDB: NSObject {
     
     var process: NSTask?
     var processPipe: NSPipe?
+    
+    var databasePath: String?
+    var logPath: String?
+    
+    override init() {
+        super.init()
+        
+        // Setup defaults to be read from if needed
+        self.setDefaults()
+        
+        // Read the runtime values from defaults to start server
+        self.initDatabase()
+        self.initLog()
+    }
 
     class var sharedServer: MongoDB {
         return _MongoDBSharedServer
@@ -29,8 +43,8 @@ class MongoDB: NSObject {
        
         let mongod = self.mongodPath()
         
-        let db = self.databaseDirectory()!.path!
-        let log = self.logFile()!.path!
+        let db = self.databasePath
+        let log = self.logPath
         let args = ["--dbpath=\(db)", "--logpath", "\(log)", "--logappend"]
         
         self.processPipe = NSPipe()
@@ -56,25 +70,44 @@ class MongoDB: NSObject {
     func isRunning() -> Bool {
         return self.process? != nil
     }
-    
-    func databaseDirectory() -> NSURL? {
-        return mongoDBDirectory("db")
-    }
-    
-    func logDirectory() -> NSURL? {
-        return mongoDBDirectory("log")
-    }
-    
-    func logFile() -> NSURL? {
-        return self.logDirectory()?.URLByAppendingPathComponent("mongodb.log")
-    }
-    
+
     private
     
-    func mongodPath() -> String {
+    func setDefaults() {
         
-        let bundlePath = NSBundle.mainBundle().bundlePath
-        return bundlePath.stringByAppendingPathComponent("Contents/MongoDB/2.6.6/bin/mongod")
+        if let path = NSBundle.mainBundle().pathForResource("defaults", ofType: "plist") {
+            if let dict = NSDictionary(contentsOfFile: path) as? Dictionary<String, AnyObject> {
+                let userDefaults = NSUserDefaults.standardUserDefaults()
+
+                var defaultValues = NSMutableDictionary()
+                defaultValues.setValue(self.defaultDatabaseDirectory(), forKey: "databasePath")
+                defaultValues.setValue(self.defaultLogDirectory(), forKey: "logPath")
+                defaultValues.setValue(true, forKey: "autoStartup")
+                defaultValues.setValue(true, forKey: "autoUpdate")
+
+                userDefaults.registerDefaults(defaultValues)
+            }
+        }
+    }
+    
+    func defaultDatabaseDirectory() -> String? {
+        return mongoDBDirectory("db")?.path
+    }
+    
+    func defaultLogDirectory() -> String? {
+        return mongoDBDirectory("log")?.URLByAppendingPathComponent("mongodb.log").path
+    }
+    
+    func initDatabase()  {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        self.databasePath = defaults.stringForKey("databasePath")
+    }
+    
+    func initLog() {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        self.logPath = defaults.stringForKey("logPath")
     }
     
     func mongoDBDirectory(directory: String) -> NSURL? {
@@ -91,5 +124,11 @@ class MongoDB: NSObject {
         }
         
         return appSupportDir
+    }
+    
+    func mongodPath() -> String {
+        
+        let bundlePath = NSBundle.mainBundle().bundlePath
+        return bundlePath.stringByAppendingPathComponent("Contents/MongoDB/2.6.6/bin/mongod")
     }
 }
