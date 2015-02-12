@@ -43,8 +43,8 @@ class MongoDB: NSObject {
        
         let mongod = self.mongodPath()
         
-        let db = self.databasePath
-        let log = self.logPath
+        let db = self.databasePath!
+        let log = self.logPath!
         let args = ["--dbpath=\(db)", "--logpath", "\(log)", "--logappend"]
         
         self.processPipe = NSPipe()
