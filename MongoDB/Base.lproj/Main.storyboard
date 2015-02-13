@@ -959,6 +959,10 @@
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>
+                                            <connections>
+                                                <binding destination="5bC-O3-Tf9" name="contentValues" keyPath="values.availableVersions" id="qvs-lQ-LVO"/>
+                                                <binding destination="5bC-O3-Tf9" name="selectedObject" keyPath="values.mongodbVersion" previousBinding="qvs-lQ-LVO" id="anm-bw-BT1"/>
+                                            </connections>
                                         </popUpButton>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EnZ-tC-LFM">
                                             <rect key="frame" x="228" y="42" width="88" height="32"/>

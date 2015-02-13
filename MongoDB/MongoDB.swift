@@ -17,6 +17,7 @@ class MongoDB: NSObject {
     
     var databasePath: String?
     var logPath: String?
+    var version: String?
     
     override init() {
         super.init()
@@ -27,34 +28,40 @@ class MongoDB: NSObject {
         // Read the runtime values from defaults to start server
         self.initDatabase()
         self.initLog()
+        self.selectVersion()
     }
 
     class var sharedServer: MongoDB {
         return _MongoDBSharedServer
     }
     
-    func serverVersion() -> NSString {
-      
-        let (output, error) = NSTask.executeSyncTask(self.mongodPath(), withArguments: ["--version"])
-        return output!
+    func serverVersion() -> NSString? {
+        if let mongod = self.mongodPath() {
+            let (output, error) = NSTask.executeSyncTask(mongod, withArguments: ["--version"])
+            return output!
+        }
+        
+        return nil
     }
     
     func startServer() {
-       
-        let mongod = self.mongodPath()
         
-        let db = self.databasePath!
-        let log = self.logPath!
-        let args = ["--dbpath=\(db)", "--logpath", "\(log)", "--logappend"]
-        
-        self.processPipe = NSPipe()
-
-        self.process = NSTask.runProcess(mongod, pipe: self.processPipe!, withArguments: args, { (out: String) -> Void in
-            // NOTE - There is no stdout from mongod when it started successfully in the foreground (output goes to log)
-            NSLog("\(out)")
-        })
-        
-        NSNotificationCenter.defaultCenter().postNotificationName("ServerStartedSuccessfullyNotification", object: nil)
+        if let mongod = self.mongodPath() {
+            if let db = self.databasePath {
+                if let log = self.logPath {
+                    
+                    let args = ["--dbpath=\(db)", "--logpath", "\(log)", "--logappend"]
+                    
+                    self.processPipe = NSPipe()
+                    
+                    self.process = NSTask.runProcess(mongod, pipe: self.processPipe!, withArguments: args, { (out: String) -> Void in
+                        // NOTE - There is no stdout from mongod when it started successfully in the foreground (output goes to log)
+                    })
+                    
+                    NSNotificationCenter.defaultCenter().postNotificationName("ServerStartedSuccessfullyNotification", object: nil)
+                }
+            }
+        }
     }
     
     func restartServer() {
@@ -80,13 +87,18 @@ class MongoDB: NSObject {
                 let userDefaults = NSUserDefaults.standardUserDefaults()
 
                 var defaultValues = NSMutableDictionary()
+                
+                // Merge in pList settings
+                defaultValues.setValue(dict["mongodbVersion"], forKey: "mongodbVersion")
+                defaultValues.setValue(dict["availableVersions"], forKey: "availableVersions")
+                defaultValues.setValue(dict["autoStartup"], forKey: "autoStartup")
+                defaultValues.setValue(dict["autoUpdate"], forKey: "autoUpdate")
+                
+                // Add runtime settings
                 defaultValues.setValue(self.defaultDatabaseDirectory(), forKey: "databasePath")
                 defaultValues.setValue(self.defaultLogDirectory(), forKey: "logPath")
-                defaultValues.setValue(true, forKey: "autoStartup")
-                defaultValues.setValue(true, forKey: "autoUpdate")
 
                 userDefaults.registerDefaults(defaultValues)
-                
                 NSUserDefaultsController.sharedUserDefaultsController().initialValues = defaultValues
             }
         }
@@ -112,6 +124,12 @@ class MongoDB: NSObject {
         self.logPath = defaults.stringForKey("logPath")
     }
     
+    func selectVersion() {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        self.version = defaults.stringForKey("mongodbVersion")
+    }
+    
     func mongoDBDirectory(directory: String) -> NSURL? {
         
         let manager = NSFileManager.defaultManager()
@@ -128,9 +146,12 @@ class MongoDB: NSObject {
         return appSupportDir
     }
     
-    func mongodPath() -> String {
+    func mongodPath() -> String? {
+        if let version = self.version {
+            let bundlePath = NSBundle.mainBundle().bundlePath
+            return bundlePath.stringByAppendingPathComponent("Contents/MongoDB/\(version)/bin/mongod")
+        }
         
-        let bundlePath = NSBundle.mainBundle().bundlePath
-        return bundlePath.stringByAppendingPathComponent("Contents/MongoDB/2.6.6/bin/mongod")
+        return nil
     }
 }
