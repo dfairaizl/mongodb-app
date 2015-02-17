@@ -77,6 +77,14 @@ class MongoDB: NSObject {
     func isRunning() -> Bool {
         return self.process? != nil
     }
+    
+    func defaultDatabaseDirectory() -> String? {
+        return mongoDBDirectory("db")?.path
+    }
+    
+    func defaultLogDirectory() -> String? {
+        return mongoDBDirectory("log")?.path
+    }
 
     private
     
@@ -104,14 +112,6 @@ class MongoDB: NSObject {
         }
     }
     
-    func defaultDatabaseDirectory() -> String? {
-        return mongoDBDirectory("db")?.path
-    }
-    
-    func defaultLogDirectory() -> String? {
-        return mongoDBDirectory("log")?.URLByAppendingPathComponent("mongodb.log").path
-    }
-    
     func initDatabase()  {
         let defaults = NSUserDefaults.standardUserDefaults()
         
@@ -120,8 +120,12 @@ class MongoDB: NSObject {
     
     func initLog() {
         let defaults = NSUserDefaults.standardUserDefaults()
+        let defaultLogPath = defaults.stringForKey("logPath")
         
-        self.logPath = defaults.stringForKey("logPath")
+        if let logStringPath = defaultLogPath {
+            let basePath =  NSURL.fileURLWithPath(logStringPath, isDirectory: true)
+            self.logPath = basePath!.URLByAppendingPathComponent("mongodb.log").path
+        }
     }
     
     func selectVersion() {
