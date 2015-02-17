@@ -922,6 +922,9 @@
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <connections>
+                                                <action selector="defaultDataDirectory:" target="HTn-Wb-ewu" id="xK1-yW-biS"/>
+                                            </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4DV-cS-QIC">
                                             <rect key="frame" x="328" y="122" width="84" height="32"/>
@@ -929,6 +932,9 @@
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <connections>
+                                                <action selector="defaultLogDirectory:" target="HTn-Wb-ewu" id="O1L-ll-ksk"/>
+                                            </connections>
                                         </button>
                                         <box verticalHuggingPriority="750" fixedFrame="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="a21-Qv-cma">
                                             <rect key="frame" x="18" y="106" width="394" height="5"/>
