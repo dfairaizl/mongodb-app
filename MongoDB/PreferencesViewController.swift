@@ -15,6 +15,28 @@ class PreferencesViewController: NSViewController {
         // Do view setup here.
     }
     
+    override func viewDidAppear() {
+        let defaultsController = NSUserDefaultsController.sharedUserDefaultsController()
+        defaultsController.addObserver(self, forKeyPath: "values.autoStartup", options: NSKeyValueObservingOptions.New, context: nil)
+    }
+    
+    override func viewDidDisappear() {
+        let defaultsController = NSUserDefaultsController.sharedUserDefaultsController()
+        defaultsController.removeObserver(self, forKeyPath: "values.autoStartup")
+    }
+    
+    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+        
+        if keyPath == "values.autoStartup" {
+            if MongoDB.sharedServer.enabledOnStartup() {
+                MongoDB.sharedServer.runOnStartup(false)
+            }
+            else {
+                MongoDB.sharedServer.runOnStartup(true)
+            }
+        }
+    }
+    
     @IBAction func changeDataDirectory(sender: AnyObject) {
         self.chooseDirectory(forKey: "databasePath")
     }

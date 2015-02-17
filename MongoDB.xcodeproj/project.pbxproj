@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		77DE20871A93BE2100A369FF /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DE20861A93BE2100A369FF /* ServiceManagement.framework */; };
 		E65EC93D1A814DF600710BCD /* NSImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65EC93C1A814DF600710BCD /* NSImageView.swift */; };
 		E67CC5791A717A2B00E2AAD2 /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E67CC5781A717A2B00E2AAD2 /* ScriptingBridge.framework */; };
 		E67CC5821A717F4100E2AAD2 /* TerminalScript.m in Sources */ = {isa = PBXBuildFile; fileRef = E67CC5811A717F4100E2AAD2 /* TerminalScript.m */; };
@@ -45,6 +46,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		77DE20861A93BE2100A369FF /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		E65EC93C1A814DF600710BCD /* NSImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSImageView.swift; sourceTree = "<group>"; };
 		E67CC5781A717A2B00E2AAD2 /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		E67CC5811A717F4100E2AAD2 /* TerminalScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalScript.m; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77DE20871A93BE2100A369FF /* ServiceManagement.framework in Frameworks */,
 				E67CC5791A717A2B00E2AAD2 /* ScriptingBridge.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -99,6 +102,7 @@
 		E67CC5841A72EE1B00E2AAD2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				77DE20861A93BE2100A369FF /* ServiceManagement.framework */,
 				E67CC5781A717A2B00E2AAD2 /* ScriptingBridge.framework */,
 			);
 			name = Frameworks;
