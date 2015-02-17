@@ -49,18 +49,11 @@ class MongoDB: NSObject {
     
     func startServer() {
         
-        if let mongod = self.mongodPath() {
-            if let db = self.databasePath {
-                if let log = self.logPath {
-                    
-                    let args = ["--dbpath=\(db)", "--logpath", "\(log)", "--logappend"]
-                    
-                    self.processPipe = NSPipe()
-                    
-                    self.process = NSTask.runProcess(mongod, pipe: self.processPipe!, withArguments: args, { (out: String) -> Void in
-                        // NOTE - There is no stdout from mongod when it started successfully in the foreground (output goes to log)
-                    })
-                    
+        if let db = self.databasePath {
+            if let log = self.logPath {
+                
+                if self.spawnProcess(databasePath: db, logPath: log) {
+                
                     NSNotificationCenter.defaultCenter().postNotificationName("ServerStartedSuccessfullyNotification", object: nil)
                 }
             }
@@ -68,7 +61,21 @@ class MongoDB: NSObject {
     }
     
     func restartServer() {
-        NSLog("starting server...")
+        self.process?.terminate()
+        self.process = nil
+        
+        self.initDatabase()
+        self.initLog()
+        
+        if let db = self.databasePath {
+            if let log = self.logPath {
+                
+                if self.spawnProcess(databasePath: db, logPath: log) {
+                    
+                    NSNotificationCenter.defaultCenter().postNotificationName("ServerRestartedSuccessfullyNotification", object: nil)
+                }
+            }
+        }
     }
     
     func stopServer() {
@@ -76,6 +83,23 @@ class MongoDB: NSObject {
         self.process = nil
         
         NSNotificationCenter.defaultCenter().postNotificationName("ServerStoppedSuccessfullyNotification", object: nil)
+    }
+    
+    func spawnProcess(#databasePath: String, logPath: String) -> Bool {
+
+        if let mongod = self.mongodPath() {
+            let args = ["--dbpath=\(databasePath)", "--logpath", "\(logPath)", "--logappend"]
+            
+            self.processPipe = NSPipe()
+            
+            self.process = NSTask.runProcess(mongod, pipe: self.processPipe!, withArguments: args, { (out: String) -> Void in
+                // NOTE - There is no stdout from mongod when it started successfully in the foreground (output goes to log)
+            })
+            
+            return true
+        }
+        
+        return false
     }
     
     func isRunning() -> Bool {

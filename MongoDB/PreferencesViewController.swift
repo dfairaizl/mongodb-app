@@ -18,11 +18,15 @@ class PreferencesViewController: NSViewController {
     override func viewDidAppear() {
         let defaultsController = NSUserDefaultsController.sharedUserDefaultsController()
         defaultsController.addObserver(self, forKeyPath: "values.autoStartup", options: NSKeyValueObservingOptions.New, context: nil)
+        defaultsController.addObserver(self, forKeyPath: "values.databasePath", options: NSKeyValueObservingOptions.New, context: nil)
+        defaultsController.addObserver(self, forKeyPath: "values.logPath", options: NSKeyValueObservingOptions.New, context: nil)
     }
     
     override func viewDidDisappear() {
         let defaultsController = NSUserDefaultsController.sharedUserDefaultsController()
         defaultsController.removeObserver(self, forKeyPath: "values.autoStartup")
+        defaultsController.removeObserver(self, forKeyPath: "values.databasePath")
+        defaultsController.removeObserver(self, forKeyPath: "values.logPath")
     }
     
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
@@ -34,6 +38,9 @@ class PreferencesViewController: NSViewController {
             else {
                 MongoDB.sharedServer.runOnStartup(true)
             }
+        }
+        else if keyPath == "values.databasePath" || keyPath == "values.logPath" {
+            MongoDB.sharedServer.restartServer()
         }
     }
     
