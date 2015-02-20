@@ -20,7 +20,6 @@
 		E69CB5ED1A5207E2002C6E0A /* ServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69CB5EC1A5207E2002C6E0A /* ServerViewController.swift */; };
 		E6BB4D811A8BD000006477BB /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6BB4D7F1A8BD000006477BB /* PreferencesViewController.swift */; };
 		E6BB4D841A8BEBC0006477BB /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = E6BB4D831A8BEBC0006477BB /* defaults.plist */; };
-		E6BB4D851A8BF151006477BB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E69CB58C1A51D627002C6E0A /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -305,7 +304,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E6BB4D851A8BF151006477BB /* Info.plist in Resources */,
 				E69CB5921A51D627002C6E0A /* Images.xcassets in Resources */,
 				E6BB4D841A8BEBC0006477BB /* defaults.plist in Resources */,
 				E69CB5951A51D627002C6E0A /* Main.storyboard in Resources */,
