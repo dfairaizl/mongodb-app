@@ -9,6 +9,9 @@
 import Cocoa
 
 class PreferencesViewController: NSViewController {
+    
+    @IBOutlet weak var changeVersionButton: NSButton!
+    @IBOutlet weak var latestVersionButton: NSButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,16 +20,20 @@ class PreferencesViewController: NSViewController {
     
     override func viewDidAppear() {
         let defaultsController = NSUserDefaultsController.sharedUserDefaultsController()
+       
         defaultsController.addObserver(self, forKeyPath: "values.autoStartup", options: NSKeyValueObservingOptions.New, context: nil)
         defaultsController.addObserver(self, forKeyPath: "values.databasePath", options: NSKeyValueObservingOptions.New, context: nil)
         defaultsController.addObserver(self, forKeyPath: "values.logPath", options: NSKeyValueObservingOptions.New, context: nil)
+        defaultsController.addObserver(self, forKeyPath: "values.mongodbVersion", options: NSKeyValueObservingOptions.New, context: nil)
     }
     
     override func viewDidDisappear() {
         let defaultsController = NSUserDefaultsController.sharedUserDefaultsController()
+        
         defaultsController.removeObserver(self, forKeyPath: "values.autoStartup")
         defaultsController.removeObserver(self, forKeyPath: "values.databasePath")
         defaultsController.removeObserver(self, forKeyPath: "values.logPath")
+        defaultsController.removeObserver(self, forKeyPath: "values.mongodbVersion")
     }
     
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
@@ -41,6 +48,12 @@ class PreferencesViewController: NSViewController {
         }
         else if keyPath == "values.databasePath" || keyPath == "values.logPath" {
             MongoDB.sharedServer.restartServer()
+        }
+        else if keyPath == "values.mongodbVersion" {
+            let defaults = NSUserDefaults.standardUserDefaults()
+            let v = defaults.stringForKey("mongodbVersion")!
+            
+            self.enableVersionChange(v)
         }
     }
     
@@ -70,7 +83,34 @@ class PreferencesViewController: NSViewController {
         }
     }
     
+    @IBAction func changeVersion(sender: AnyObject) {
+        NSLog("changing versions")
+    }
+    
+    @IBAction func latestVersion(sender: AnyObject) {
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let latestVersion = MongoDB.sharedServer.latestVersion()
+       
+        defaults.setValue(latestVersion, forKey: "mongodbVersion")
+        defaults.synchronize()
+    }
+    
     private
+    
+    func enableVersionChange(version: String) {
+        
+        if let currentVersion = MongoDB.sharedServer.currentVersion() {
+            if currentVersion != version {
+                self.changeVersionButton.enabled = true
+                self.latestVersionButton.enabled = true
+            }
+            else {
+                self.changeVersionButton.enabled = false
+                self.latestVersionButton.enabled = false
+            }
+        }
+    }
     
     func chooseDirectory(forKey key: String!) {
         

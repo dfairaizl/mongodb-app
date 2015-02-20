@@ -982,6 +982,9 @@
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <connections>
+                                                <action selector="changeVersion:" target="HTn-Wb-ewu" id="UVI-hn-QyT"/>
+                                            </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YLf-Qb-cG9">
                                             <rect key="frame" x="316" y="42" width="79" height="32"/>
@@ -989,6 +992,9 @@
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <connections>
+                                                <action selector="latestVersion:" target="HTn-Wb-ewu" id="oiw-Gs-rQN"/>
+                                            </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ERn-DE-PbX">
                                             <rect key="frame" x="30" y="23" width="320" height="18"/>
@@ -1007,6 +1013,10 @@
                             </box>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="changeVersionButton" destination="EnZ-tC-LFM" id="4p5-EK-qVR"/>
+                        <outlet property="latestVersionButton" destination="YLf-Qb-cG9" id="fRj-39-Qn7"/>
+                    </connections>
                 </viewController>
                 <customObject id="IxY-D3-QxB" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="5bC-O3-Tf9"/>

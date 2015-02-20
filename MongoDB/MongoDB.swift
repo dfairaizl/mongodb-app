@@ -20,6 +20,7 @@ class MongoDB: NSObject {
     var logPath: String?
     var runOnStartup: Bool?
     var version: String?
+    var versions: Array<String> = []
     
     override init() {
         super.init()
@@ -45,6 +46,14 @@ class MongoDB: NSObject {
         }
         
         return nil
+    }
+    
+    func currentVersion() -> String? {
+        return self.version
+    }
+    
+    func latestVersion() -> String {
+        return self.versions[0]
     }
     
     func startServer() {
@@ -194,6 +203,7 @@ class MongoDB: NSObject {
         let defaults = NSUserDefaults.standardUserDefaults()
         
         self.version = defaults.stringForKey("mongodbVersion")
+        self.versions = defaults.arrayForKey("availableVersions") as Array<String>
     }
     
     func mongoDBDirectory(directory: String) -> NSURL? {
