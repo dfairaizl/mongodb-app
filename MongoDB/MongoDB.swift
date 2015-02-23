@@ -56,6 +56,20 @@ class MongoDB: NSObject {
         return self.versions[0]
     }
     
+    func hasVersionAvailable(version: String) -> Bool {
+        
+        if contains(self.versions, version) {
+            let bundlePath = NSBundle.mainBundle().bundlePath
+            let fileManager = NSFileManager.defaultManager()
+            let binPath = bundlePath.stringByAppendingPathComponent("Contents/MongoDB/\(version)")
+            var directory: ObjCBool = false
+            
+            return fileManager.fileExistsAtPath(binPath, isDirectory: &directory) && directory
+        }
+        
+        return false
+    }
+    
     func startServer() {
         
         if let db = self.databasePath {

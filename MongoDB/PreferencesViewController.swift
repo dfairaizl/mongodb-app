@@ -84,7 +84,38 @@ class PreferencesViewController: NSViewController {
     }
     
     @IBAction func changeVersion(sender: AnyObject) {
-        NSLog("changing versions")
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let v = defaults.stringForKey("mongodbVersion")!
+        
+        if MongoDB.sharedServer.hasVersionAvailable(v) {
+            MongoDB.sharedServer.restartServer()
+        }
+        else {
+            var downloadAlert = NSAlert()
+            downloadAlert.addButtonWithTitle("Download")
+            downloadAlert.addButtonWithTitle("Cancel")
+            downloadAlert.messageText = "Download MongoDB version \(v)?"
+            downloadAlert.informativeText = "Version \(v) has not been downloaded yet. Do you want to download it now?"
+            downloadAlert.alertStyle = NSAlertStyle.InformationalAlertStyle
+            
+            downloadAlert.beginSheetModalForWindow(self.view.window!, completionHandler: { (response) -> Void in
+                
+                NSLog("Response \(response)")
+                
+                if response == NSAlertFirstButtonReturn {
+                    NSLog("download")
+                }
+                else if response == NSAlertSecondButtonReturn {
+                    let defaults = NSUserDefaults.standardUserDefaults()
+                    let currentVersion = MongoDB.sharedServer.currentVersion()
+                    
+                    defaults.setValue(currentVersion, forKey: "mongodbVersion")
+                    defaults.synchronize()
+                    
+                    self.enableVersionChange(MongoDB.sharedServer.currentVersion()!)
+                }
+            })
+        }
     }
     
     @IBAction func latestVersion(sender: AnyObject) {
