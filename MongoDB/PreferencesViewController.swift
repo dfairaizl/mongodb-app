@@ -100,12 +100,9 @@ class PreferencesViewController: NSViewController {
             
             downloadAlert.beginSheetModalForWindow(self.view.window!, completionHandler: { (response) -> Void in
                 
-                NSLog("Response \(response)")
-                
                 if response == NSAlertFirstButtonReturn {
-                    self.downloadVersion()
-                }
-                else if response == NSAlertSecondButtonReturn {
+                    self.downloadVersion(v)
+                } else if response == NSAlertSecondButtonReturn {
                     let defaults = NSUserDefaults.standardUserDefaults()
                     let currentVersion = MongoDB.sharedServer.currentVersion()
                     
@@ -129,32 +126,26 @@ class PreferencesViewController: NSViewController {
     
     private
     
-    func downloadVersion() {
- 
-//        var downloadSheet = self.storyboard?.instantiateControllerWithIdentifier("ProgressViewController") as NSViewController
-
-        NSApp.beginSheet(nil, forModalWindow: self.view.window!, completionHandler: { (response) -> Void in
-            
-        })
+    func downloadVersion(version: String) {
         
-//        NSApp.beginSheetModalForWindow(self.view.window!, completionHandler: { (response) -> Void in
-//            
-//            NSLog("Response \(response)")
-//            
-//            if response == NSAlertFirstButtonReturn {
-//                self.downloadVersion()
-//            }
-//            else if response == NSAlertSecondButtonReturn {
-//                let defaults = NSUserDefaults.standardUserDefaults()
-//                let currentVersion = MongoDB.sharedServer.currentVersion()
-//                
-//                defaults.setValue(currentVersion, forKey: "mongodbVersion")
-//                defaults.synchronize()
-//                
-//                self.enableVersionChange(MongoDB.sharedServer.currentVersion()!)
-//            }
-//        })
+        let progressWindow = self.storyboard?.instantiateControllerWithIdentifier("MongoProgressWindow") as NSWindowController
+        let downloadViewController = progressWindow.contentViewController! as DownloadViewController
+        
+        downloadViewController.version = version
+        downloadViewController.preferencesViewController = self
 
+        self.view.window!.beginSheet(progressWindow.window!, completionHandler: { (response) -> Void in
+
+            if response == NSModalResponseCancel {
+                let defaults = NSUserDefaults.standardUserDefaults()
+                let currentVersion = MongoDB.sharedServer.currentVersion()
+                
+                defaults.setValue(currentVersion, forKey: "mongodbVersion")
+                defaults.synchronize()
+                
+                self.enableVersionChange(MongoDB.sharedServer.currentVersion()!)
+            }
+        })
     }
     
     func enableVersionChange(version: String) {

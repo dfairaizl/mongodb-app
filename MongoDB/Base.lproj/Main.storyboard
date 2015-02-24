@@ -1027,41 +1027,75 @@
             </objects>
             <point key="canvasLocation" x="795" y="1383"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="LGz-xU-Ifa">
+        <!--Window Controller-->
+        <scene sceneID="HaC-tw-CK6">
             <objects>
-                <viewController storyboardIdentifier="ProgressViewController" id="Y8e-4A-wJk" sceneMemberID="viewController">
-                    <view key="view" id="YBp-8x-Eld">
-                        <rect key="frame" x="0.0" y="0.0" width="478" height="131"/>
+                <windowController storyboardIdentifier="MongoProgressWindow" id="Ktd-UU-xsJ" sceneMemberID="viewController">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="glJ-cs-C0t">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="163" y="208" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1280" height="800"/>
+                    </window>
+                    <connections>
+                        <segue destination="SSi-n7-oJw" kind="relationship" relationship="window.shadowedContentViewController" id="02k-03-lD8"/>
+                    </connections>
+                </windowController>
+                <customObject id="QlD-LV-ybu" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1375" y="1432"/>
+        </scene>
+        <!--Download View Controller-->
+        <scene sceneID="5UZ-pk-CUF">
+            <objects>
+                <viewController storyboardIdentifier="DownloadViewController" id="SSi-n7-oJw" customClass="DownloadViewController" customModule="MongoDB" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="qRN-V2-7qe">
+                        <rect key="frame" x="0.0" y="0.0" width="420" height="120"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <progressIndicator fixedFrame="YES" maxValue="100" indeterminate="YES" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="EoO-tF-G5L">
-                                <rect key="frame" x="47" y="79" width="355" height="20"/>
-                            </progressIndicator>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XtZ-aj-W40">
-                                <rect key="frame" x="408" y="81" width="26" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="0%" id="gP5-hU-2Xb">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="odx-CL-Ym2">
+                                <rect key="frame" x="359" y="54" width="30" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="0%" id="ISV-kU-uPc">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O4F-fc-Q2S">
-                                <rect key="frame" x="381" y="13" width="83" height="32"/>
-                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RjC-3z-Ggn">
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GKK-rY-H9Q">
+                                <rect key="frame" x="327" y="5" width="83" height="32"/>
+                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="uk6-Jp-56J">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                     <string key="keyEquivalent" base64-UTF8="YES">
 Gw
 </string>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="cancelDownload:" target="SSi-n7-oJw" id="rNt-mR-OXc"/>
+                                </connections>
                             </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XHp-f8-ORa">
+                                <rect key="frame" x="40" y="79" width="362" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Downloading MongoDB version 2.4.11" id="LFJ-K3-Mog">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <progressIndicator fixedFrame="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="ndX-hQ-eLd">
+                                <rect key="frame" x="42" y="52" width="311" height="20"/>
+                            </progressIndicator>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="downloadingLabel" destination="XHp-f8-ORa" id="Dc2-Ac-pyO"/>
+                        <outlet property="progressIndicator" destination="ndX-hQ-eLd" id="qkq-jE-dWF"/>
+                        <outlet property="progressLabel" destination="odx-CL-Ym2" id="h8h-RR-f4w"/>
+                    </connections>
                 </viewController>
-                <customObject id="xG2-q4-yFF" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customObject id="e0z-x5-DXs" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1389" y="1330.5"/>
+            <point key="canvasLocation" x="2027" y="1426"/>
         </scene>
     </scenes>
     <resources>

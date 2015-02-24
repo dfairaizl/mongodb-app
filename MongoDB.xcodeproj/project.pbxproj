@@ -20,6 +20,7 @@
 		E69CB5ED1A5207E2002C6E0A /* ServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69CB5EC1A5207E2002C6E0A /* ServerViewController.swift */; };
 		E6BB4D811A8BD000006477BB /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6BB4D7F1A8BD000006477BB /* PreferencesViewController.swift */; };
 		E6BB4D841A8BEBC0006477BB /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = E6BB4D831A8BEBC0006477BB /* defaults.plist */; };
+		E6CFDE9F1A9CE90E00F272A2 /* DownloadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6CFDE9E1A9CE90E00F272A2 /* DownloadViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		E69CB5EC1A5207E2002C6E0A /* ServerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 3; lastKnownFileType = sourcecode.swift; path = ServerViewController.swift; sourceTree = "<group>"; };
 		E6BB4D7F1A8BD000006477BB /* PreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
 		E6BB4D831A8BEBC0006477BB /* defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
+		E6CFDE9E1A9CE90E00F272A2 /* DownloadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,20 +186,21 @@
 			isa = PBXGroup;
 			children = (
 				E69CB58D1A51D627002C6E0A /* AppDelegate.swift */,
-				E69CB5E51A51E399002C6E0A /* Controllers */,
 				E69CB5E61A51F4A6002C6E0A /* Server */,
 				773516251A74092400B278DA /* Support */,
+				E69CB5E51A51E399002C6E0A /* View Controllers */,
 			);
 			name = App;
 			sourceTree = "<group>";
 		};
-		E69CB5E51A51E399002C6E0A /* Controllers */ = {
+		E69CB5E51A51E399002C6E0A /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				E69CB5EC1A5207E2002C6E0A /* ServerViewController.swift */,
+				E6CFDE9E1A9CE90E00F272A2 /* DownloadViewController.swift */,
 				E6BB4D7F1A8BD000006477BB /* PreferencesViewController.swift */,
+				E69CB5EC1A5207E2002C6E0A /* ServerViewController.swift */,
 			);
-			name = Controllers;
+			name = "View Controllers";
 			sourceTree = "<group>";
 		};
 		E69CB5E61A51F4A6002C6E0A /* Server */ = {
@@ -346,6 +349,7 @@
 				E69CB5EB1A51FC23002C6E0A /* NSTask.swift in Sources */,
 				E6BB4D811A8BD000006477BB /* PreferencesViewController.swift in Sources */,
 				E67CC5821A717F4100E2AAD2 /* TerminalScript.m in Sources */,
+				E6CFDE9F1A9CE90E00F272A2 /* DownloadViewController.swift in Sources */,
 				E69CB5ED1A5207E2002C6E0A /* ServerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
