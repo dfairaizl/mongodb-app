@@ -103,7 +103,7 @@ class PreferencesViewController: NSViewController {
                 NSLog("Response \(response)")
                 
                 if response == NSAlertFirstButtonReturn {
-                    NSLog("download")
+                    self.downloadVersion()
                 }
                 else if response == NSAlertSecondButtonReturn {
                     let defaults = NSUserDefaults.standardUserDefaults()
@@ -128,6 +128,34 @@ class PreferencesViewController: NSViewController {
     }
     
     private
+    
+    func downloadVersion() {
+ 
+//        var downloadSheet = self.storyboard?.instantiateControllerWithIdentifier("ProgressViewController") as NSViewController
+
+        NSApp.beginSheet(nil, forModalWindow: self.view.window!, completionHandler: { (response) -> Void in
+            
+        })
+        
+//        NSApp.beginSheetModalForWindow(self.view.window!, completionHandler: { (response) -> Void in
+//            
+//            NSLog("Response \(response)")
+//            
+//            if response == NSAlertFirstButtonReturn {
+//                self.downloadVersion()
+//            }
+//            else if response == NSAlertSecondButtonReturn {
+//                let defaults = NSUserDefaults.standardUserDefaults()
+//                let currentVersion = MongoDB.sharedServer.currentVersion()
+//                
+//                defaults.setValue(currentVersion, forKey: "mongodbVersion")
+//                defaults.synchronize()
+//                
+//                self.enableVersionChange(MongoDB.sharedServer.currentVersion()!)
+//            }
+//        })
+
+    }
     
     func enableVersionChange(version: String) {
         
