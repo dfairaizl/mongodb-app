@@ -14,7 +14,7 @@ class DownloadViewController: NSViewController, NSURLDownloadDelegate {
     @IBOutlet weak var progressLabel: NSTextField!
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
     
-    var preferencesViewController: PreferencesViewController?
+    var preferencesDelegate: PreferencesDownloadDelegate?
     var version: String = ""
     
     var download: NSURLDownload?
@@ -46,10 +46,7 @@ class DownloadViewController: NSViewController, NSURLDownloadDelegate {
     @IBAction func cancelDownload(sender: AnyObject) {
         
         self.download?.cancel()
-     
-        if let preferences = self.preferencesViewController {
-            preferences.view.window!.endSheet(self.view.window!, returnCode: NSModalResponseCancel)
-        }
+        self.preferencesDelegate?.downloadWasCancelled()
     }
     
     // MARK: NSURLDownload Methods
@@ -95,10 +92,12 @@ class DownloadViewController: NSViewController, NSURLDownloadDelegate {
     
     func downloadDidFinish(download: NSURLDownload) {
         self.progressIndicator.stopAnimation(self.download)
+        self.preferencesDelegate?.downloadDidFinishSuccessfully()
     }
     
     func download(download: NSURLDownload, didFailWithError error: NSError) {
         self.progressIndicator.stopAnimation(self.download)
+        self.preferencesDelegate?.downloadDidFailWithError(error)
     }
     
     // MARK: Private Methods
@@ -106,6 +105,6 @@ class DownloadViewController: NSViewController, NSURLDownloadDelegate {
     private
     
     func urlForVersion(version: String) -> NSURL? {
-        return NSURL(string: "http://downloads.mongodb.org/osx/mongodb-osx-x86_64-\(version).tgz")
+        return NSURL(string: "http://downloads.mongodb.org/osx/mongodb-osx-x86_sdfghjkl64-\(version).tgz")
     }
 }

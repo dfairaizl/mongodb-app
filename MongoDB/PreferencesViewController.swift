@@ -8,10 +8,18 @@
 
 import Cocoa
 
-class PreferencesViewController: NSViewController {
+protocol PreferencesDownloadDelegate {
+    func downloadWasCancelled()
+    func downloadDidFinishSuccessfully()
+    func downloadDidFailWithError(error: NSError)
+}
+
+class PreferencesViewController: NSViewController, PreferencesDownloadDelegate {
     
     @IBOutlet weak var changeVersionButton: NSButton!
     @IBOutlet weak var latestVersionButton: NSButton!
+    
+    var progressWindow: NSWindowController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -128,13 +136,13 @@ class PreferencesViewController: NSViewController {
     
     func downloadVersion(version: String) {
         
-        let progressWindow = self.storyboard?.instantiateControllerWithIdentifier("MongoProgressWindow") as NSWindowController
-        let downloadViewController = progressWindow.contentViewController! as DownloadViewController
+        self.progressWindow = self.storyboard?.instantiateControllerWithIdentifier("MongoProgressWindow") as? NSWindowController
+        let downloadViewController = self.progressWindow!.contentViewController! as DownloadViewController
         
         downloadViewController.version = version
-        downloadViewController.preferencesViewController = self
+        downloadViewController.preferencesDelegate = self
 
-        self.view.window!.beginSheet(progressWindow.window!, completionHandler: { (response) -> Void in
+        self.view.window!.beginSheet(self.progressWindow!.window!, completionHandler: { (response) -> Void in
 
             if response == NSModalResponseCancel {
                 let defaults = NSUserDefaults.standardUserDefaults()
@@ -178,4 +186,37 @@ class PreferencesViewController: NSViewController {
             }
         })
     }
+    
+    // Mark: PreferencesDownloadDelegate Methods
+    
+    func downloadWasCancelled() {
+        self.view.window!.endSheet(self.progressWindow!.window!, returnCode: NSModalResponseCancel)
+    }
+    
+    func downloadDidFinishSuccessfully() {
+        
+    }
+    
+    func downloadDidFailWithError(error: NSError) {
+        
+        var errorAlert = NSAlert()
+        errorAlert.addButtonWithTitle("Okay")
+        errorAlert.messageText = "Error downloading MongoDB version!"
+        errorAlert.informativeText = error.localizedDescription
+        errorAlert.alertStyle = NSAlertStyle.WarningAlertStyle
+        
+        errorAlert.beginSheetModalForWindow(self.view.window!, completionHandler: { (response) -> Void in
+            
+            let defaults = NSUserDefaults.standardUserDefaults()
+            let currentVersion = MongoDB.sharedServer.currentVersion()
+            
+            defaults.setValue(currentVersion, forKey: "mongodbVersion")
+            defaults.synchronize()
+            
+            self.enableVersionChange(MongoDB.sharedServer.currentVersion()!)
+        })
+        
+        self.view.window!.endSheet(self.progressWindow!.window!, returnCode: NSModalResponseCancel)
+    }
+    
 }
