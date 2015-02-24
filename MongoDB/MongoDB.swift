@@ -87,6 +87,7 @@ class MongoDB: NSObject {
         self.process?.terminate()
         self.process = nil
         
+        self.selectVersion()
         self.initDatabase()
         self.initLog()
         

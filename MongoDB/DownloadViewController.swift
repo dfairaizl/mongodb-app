@@ -18,6 +18,7 @@ class DownloadViewController: NSViewController, NSURLDownloadDelegate {
     var version: String = ""
     
     var download: NSURLDownload?
+    var downloadedURL: NSURL?
     var response: NSURLResponse?
     var bytesReceived: Int64 = 0
     
@@ -58,7 +59,8 @@ class DownloadViewController: NSViewController, NSURLDownloadDelegate {
         
         if urls.count > 0 {
             let url = urls.last as NSURL
-            download.setDestination(url.path!.stringByAppendingPathComponent(filename), allowOverwrite: false)
+            self.downloadedURL = url.URLByAppendingPathComponent(filename)
+            download.setDestination(self.downloadedURL!.path!, allowOverwrite: false)
         }
     }
     
@@ -92,7 +94,8 @@ class DownloadViewController: NSViewController, NSURLDownloadDelegate {
     
     func downloadDidFinish(download: NSURLDownload) {
         self.progressIndicator.stopAnimation(self.download)
-        self.preferencesDelegate?.downloadDidFinishSuccessfully()
+        
+        self.preferencesDelegate?.downloadDidFinishSuccessfully(self.downloadedURL!, forVersion: self.version)
     }
     
     func download(download: NSURLDownload, didFailWithError error: NSError) {
@@ -105,6 +108,6 @@ class DownloadViewController: NSViewController, NSURLDownloadDelegate {
     private
     
     func urlForVersion(version: String) -> NSURL? {
-        return NSURL(string: "http://downloads.mongodb.org/osx/mongodb-osx-x86_sdfghjkl64-\(version).tgz")
+        return NSURL(string: "http://downloads.mongodb.org/osx/mongodb-osx-x86_64-\(version).tgz")
     }
 }

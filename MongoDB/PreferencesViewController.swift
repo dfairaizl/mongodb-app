@@ -10,7 +10,7 @@ import Cocoa
 
 protocol PreferencesDownloadDelegate {
     func downloadWasCancelled()
-    func downloadDidFinishSuccessfully()
+    func downloadDidFinishSuccessfully(downloadedFile: NSURL, forVersion: String)
     func downloadDidFailWithError(error: NSError)
 }
 
@@ -153,6 +153,16 @@ class PreferencesViewController: NSViewController, PreferencesDownloadDelegate {
                 
                 self.enableVersionChange(MongoDB.sharedServer.currentVersion()!)
             }
+            else if response == NSModalResponseOK {
+                NSLog("Download completed successfully!")
+                
+                let defaults = NSUserDefaults.standardUserDefaults()
+                
+                defaults.setValue(version, forKey: "mongodbVersion")
+                defaults.synchronize()
+                
+                MongoDB.sharedServer.restartServer()
+            }
         })
     }
     
@@ -193,8 +203,17 @@ class PreferencesViewController: NSViewController, PreferencesDownloadDelegate {
         self.view.window!.endSheet(self.progressWindow!.window!, returnCode: NSModalResponseCancel)
     }
     
-    func downloadDidFinishSuccessfully() {
+    func downloadDidFinishSuccessfully(downloadedFile: NSURL, forVersion: String) {
+
+        let manager = NSFileManager.defaultManager()
+        let bundlePath = NSBundle.mainBundle().bundlePath
+        let path = bundlePath.stringByAppendingPathComponent("Contents/MongoDB/\(forVersion)")
         
+        manager.createDirectoryAtPath(path, withIntermediateDirectories: true, attributes: nil, error: nil)
+
+        let (output, error) = NSTask.executeSyncTask("/usr/bin/tar", withArguments: ["xvjf", downloadedFile.path!, "-C", path, "--strip-components=1"])
+        
+        self.view.window!.endSheet(self.progressWindow!.window!, returnCode: NSModalResponseOK)
     }
     
     func downloadDidFailWithError(error: NSError) {

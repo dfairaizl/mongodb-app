@@ -20,14 +20,14 @@ extension NSTask {
         task.standardError = NSPipe()
         task.standardOutput = NSPipe()
         
+        task.launch()
+        task.waitUntilExit()
+        
         var stdOutHandle = task.standardOutput.fileHandleForReading.readDataToEndOfFile()
         var stdErrHandle = task.standardError.fileHandleForReading.readDataToEndOfFile()
         
         let stdOut = NSString(data: stdOutHandle, encoding: NSUTF8StringEncoding)
         let stdErr = NSString(data: stdErrHandle, encoding: NSUTF8StringEncoding)
-        
-        task.launch()
-        task.waitUntilExit()
         
         return (stdOut, stdErr)
     }
