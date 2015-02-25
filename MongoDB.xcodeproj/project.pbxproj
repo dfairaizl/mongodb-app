@@ -103,8 +103,8 @@
 		E67CC5841A72EE1B00E2AAD2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				77DE20861A93BE2100A369FF /* ServiceManagement.framework */,
 				E67CC5781A717A2B00E2AAD2 /* ScriptingBridge.framework */,
+				77DE20861A93BE2100A369FF /* ServiceManagement.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -143,8 +143,8 @@
 		E69CB58B1A51D627002C6E0A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E69CB58C1A51D627002C6E0A /* Info.plist */,
 				E6BB4D831A8BEBC0006477BB /* defaults.plist */,
+				E69CB58C1A51D627002C6E0A /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -214,8 +214,8 @@
 		E69CB5E91A51FC01002C6E0A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				E69CB5EA1A51FC23002C6E0A /* NSTask.swift */,
 				E65EC93C1A814DF600710BCD /* NSImageView.swift */,
+				E69CB5EA1A51FC23002C6E0A /* NSTask.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
