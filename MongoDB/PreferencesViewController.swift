@@ -97,6 +97,7 @@ class PreferencesViewController: NSViewController, PreferencesDownloadDelegate {
         
         if MongoDB.sharedServer.hasVersionAvailable(selectedVersion!) {
             MongoDB.sharedServer.restartServer()
+            self.enableVersionChange(selectedVersion!)
         }
         else {
             var downloadAlert = NSAlert()
