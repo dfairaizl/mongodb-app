@@ -20,6 +20,8 @@ class PreferencesViewController: NSViewController, PreferencesDownloadDelegate {
     @IBOutlet weak var latestVersionButton: NSButton!
     
     var progressWindow: NSWindowController?
+    
+    // MARK: View Life-cycle Methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +46,8 @@ class PreferencesViewController: NSViewController, PreferencesDownloadDelegate {
         defaultsController.removeObserver(self, forKeyPath: "values.mongodbVersion")
     }
     
+    // MARK: KVO Methods
+    
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
         
         if keyPath == "values.autoStartup" {
@@ -58,12 +62,13 @@ class PreferencesViewController: NSViewController, PreferencesDownloadDelegate {
             MongoDB.sharedServer.restartServer()
         }
         else if keyPath == "values.mongodbVersion" {
-            let defaults = NSUserDefaults.standardUserDefaults()
-            let v = defaults.stringForKey("mongodbVersion")!
-            
-            self.enableVersionChange(v)
+            if let version = MongoDB.sharedServer.preferenceForKey("mongodbVersion") {
+                self.enableVersionChange(version)
+            }
         }
     }
+    
+    // MARK: UI Actions
     
     @IBAction func changeDataDirectory(sender: AnyObject) {
         self.chooseDirectory(forKey: "databasePath")
@@ -72,9 +77,7 @@ class PreferencesViewController: NSViewController, PreferencesDownloadDelegate {
     @IBAction func defaultDataDirectory(sender: AnyObject) {
         
         if let dataDir = MongoDB.sharedServer.defaultDatabaseDirectory() {
-            let defaults = NSUserDefaults.standardUserDefaults()
-            defaults.setValue(dataDir, forKey: "databasePath")
-            defaults.synchronize()
+            MongoDB.sharedServer.setPreference(dataDir, forKey: "databasePath")
         }
     }
     
@@ -85,38 +88,32 @@ class PreferencesViewController: NSViewController, PreferencesDownloadDelegate {
     @IBAction func defaultLogDirectory(sender: AnyObject) {
         
         if let logDir = MongoDB.sharedServer.defaultLogDirectory() {
-            let defaults = NSUserDefaults.standardUserDefaults()
-            defaults.setValue(logDir, forKey: "logPath")
-            defaults.synchronize()
+            MongoDB.sharedServer.setPreference(logDir, forKey: "logPath")
         }
     }
     
     @IBAction func changeVersion(sender: AnyObject) {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        let v = defaults.stringForKey("mongodbVersion")!
+        let selectedVersion = MongoDB.sharedServer.preferenceForKey("mongodbVersion")
         
-        if MongoDB.sharedServer.hasVersionAvailable(v) {
+        if MongoDB.sharedServer.hasVersionAvailable(selectedVersion!) {
             MongoDB.sharedServer.restartServer()
         }
         else {
             var downloadAlert = NSAlert()
             downloadAlert.addButtonWithTitle("Download")
             downloadAlert.addButtonWithTitle("Cancel")
-            downloadAlert.messageText = "Download MongoDB version \(v)?"
-            downloadAlert.informativeText = "Version \(v) has not been downloaded yet. Do you want to download it now?"
+            downloadAlert.messageText = "Download MongoDB version \(selectedVersion!)?"
+            downloadAlert.informativeText = "Version \(selectedVersion!) has not been downloaded yet. Do you want to download it now?"
             downloadAlert.alertStyle = NSAlertStyle.InformationalAlertStyle
             
             downloadAlert.beginSheetModalForWindow(self.view.window!, completionHandler: { (response) -> Void in
                 
                 if response == NSAlertFirstButtonReturn {
-                    self.downloadVersion(v)
+                    self.downloadVersion(selectedVersion!)
                 } else if response == NSAlertSecondButtonReturn {
-                    let defaults = NSUserDefaults.standardUserDefaults()
                     let currentVersion = MongoDB.sharedServer.currentVersion()
-                    
-                    defaults.setValue(currentVersion, forKey: "mongodbVersion")
-                    defaults.synchronize()
-                    
+
+                    MongoDB.sharedServer.setPreference(currentVersion!, forKey: "mongodbVersion")
                     self.enableVersionChange(MongoDB.sharedServer.currentVersion()!)
                 }
             })
@@ -124,13 +121,50 @@ class PreferencesViewController: NSViewController, PreferencesDownloadDelegate {
     }
     
     @IBAction func latestVersion(sender: AnyObject) {
-        
-        let defaults = NSUserDefaults.standardUserDefaults()
         let latestVersion = MongoDB.sharedServer.latestVersion()
-       
-        defaults.setValue(latestVersion, forKey: "mongodbVersion")
-        defaults.synchronize()
+        MongoDB.sharedServer.setPreference(latestVersion, forKey: "mongodbVersion")
     }
+    
+    // MARK: PreferencesDownloadDelegate Methods
+    
+    func downloadWasCancelled() {
+        self.closeModal(self.progressWindow!.window!, withResponseCode: NSModalResponseCancel)
+    }
+    
+    func downloadDidFinishSuccessfully(downloadedFile: NSURL, forVersion: String) {
+        
+        let manager = NSFileManager.defaultManager()
+        let bundlePath = NSBundle.mainBundle().bundlePath
+        let path = bundlePath.stringByAppendingPathComponent("Contents/MongoDB/\(forVersion)")
+        
+        manager.createDirectoryAtPath(path, withIntermediateDirectories: true, attributes: nil, error: nil)
+        
+        let (output, error) = NSTask.executeSyncTask("/usr/bin/tar", withArguments: ["xvjf", downloadedFile.path!, "-C", path, "--strip-components=1"])
+        
+        self.closeModal(self.progressWindow!.window!, withResponseCode: NSModalResponseOK)
+    }
+    
+    func downloadDidFailWithError(error: NSError) {
+        
+        var errorAlert = NSAlert()
+        errorAlert.addButtonWithTitle("Okay")
+        errorAlert.messageText = "Error downloading MongoDB version!"
+        errorAlert.informativeText = error.localizedDescription
+        errorAlert.alertStyle = NSAlertStyle.WarningAlertStyle
+        
+        errorAlert.beginSheetModalForWindow(self.view.window!, completionHandler: { (response) -> Void in
+            
+            let currentVersion = MongoDB.sharedServer.currentVersion()
+            
+            MongoDB.sharedServer.setPreference(currentVersion!, forKey: "mongodbVersion")
+            
+            self.enableVersionChange(MongoDB.sharedServer.currentVersion()!)
+        })
+        
+        self.closeModal(self.progressWindow!.window!, withResponseCode: NSModalResponseCancel)
+    }
+    
+    // MARK: Private Methods
     
     private
     
@@ -145,22 +179,15 @@ class PreferencesViewController: NSViewController, PreferencesDownloadDelegate {
         self.view.window!.beginSheet(self.progressWindow!.window!, completionHandler: { (response) -> Void in
 
             if response == NSModalResponseCancel {
-                let defaults = NSUserDefaults.standardUserDefaults()
                 let currentVersion = MongoDB.sharedServer.currentVersion()
                 
-                defaults.setValue(currentVersion, forKey: "mongodbVersion")
-                defaults.synchronize()
+                MongoDB.sharedServer.setPreference(currentVersion!, forKey: "mongodbVersion")
                 
                 self.enableVersionChange(MongoDB.sharedServer.currentVersion()!)
             }
             else if response == NSModalResponseOK {
-                NSLog("Download completed successfully!")
                 
-                let defaults = NSUserDefaults.standardUserDefaults()
-                
-                defaults.setValue(version, forKey: "mongodbVersion")
-                defaults.synchronize()
-                
+                MongoDB.sharedServer.setPreference(version, forKey: "mongodbVersion")
                 MongoDB.sharedServer.restartServer()
             }
         })
@@ -189,53 +216,12 @@ class PreferencesViewController: NSViewController, PreferencesDownloadDelegate {
         panel.beginWithCompletionHandler( { (result: Int) in
             if result == NSFileHandlingPanelOKButton {
                 let url = panel.URLs[0] as NSURL
-                
-                let defaults = NSUserDefaults.standardUserDefaults()
-                defaults.setValue(url.path, forKey: key)
-                defaults.synchronize()
+                MongoDB.sharedServer.setPreference(url.path!, forKey: key)
             }
         })
     }
     
-    // Mark: PreferencesDownloadDelegate Methods
-    
-    func downloadWasCancelled() {
-        self.view.window!.endSheet(self.progressWindow!.window!, returnCode: NSModalResponseCancel)
+    func closeModal(modal: NSWindow, withResponseCode responseCode: NSModalResponse) {
+        self.view.window!.endSheet(modal, returnCode: responseCode)
     }
-    
-    func downloadDidFinishSuccessfully(downloadedFile: NSURL, forVersion: String) {
-
-        let manager = NSFileManager.defaultManager()
-        let bundlePath = NSBundle.mainBundle().bundlePath
-        let path = bundlePath.stringByAppendingPathComponent("Contents/MongoDB/\(forVersion)")
-        
-        manager.createDirectoryAtPath(path, withIntermediateDirectories: true, attributes: nil, error: nil)
-
-        let (output, error) = NSTask.executeSyncTask("/usr/bin/tar", withArguments: ["xvjf", downloadedFile.path!, "-C", path, "--strip-components=1"])
-        
-        self.view.window!.endSheet(self.progressWindow!.window!, returnCode: NSModalResponseOK)
-    }
-    
-    func downloadDidFailWithError(error: NSError) {
-        
-        var errorAlert = NSAlert()
-        errorAlert.addButtonWithTitle("Okay")
-        errorAlert.messageText = "Error downloading MongoDB version!"
-        errorAlert.informativeText = error.localizedDescription
-        errorAlert.alertStyle = NSAlertStyle.WarningAlertStyle
-        
-        errorAlert.beginSheetModalForWindow(self.view.window!, completionHandler: { (response) -> Void in
-            
-            let defaults = NSUserDefaults.standardUserDefaults()
-            let currentVersion = MongoDB.sharedServer.currentVersion()
-            
-            defaults.setValue(currentVersion, forKey: "mongodbVersion")
-            defaults.synchronize()
-            
-            self.enableVersionChange(MongoDB.sharedServer.currentVersion()!)
-        })
-        
-        self.view.window!.endSheet(self.progressWindow!.window!, returnCode: NSModalResponseCancel)
-    }
-    
 }

@@ -146,6 +146,24 @@ class MongoDB: NSObject {
         self.ensureStartup(run)
         self.runOnStartup = run
     }
+    
+    // MARK: Settings
+    func preferenceForKey(key: String) -> String? {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        return defaults.stringForKey(key)
+    }
+    
+    func preferencesForKey(key: String) -> Array<AnyObject>? {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        return defaults.arrayForKey(key)
+    }
+    
+    func setPreference(value: String, forKey key: String) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+
+        defaults.setValue(value, forKey: key)
+        defaults.synchronize()
+    }
 
     private
     
