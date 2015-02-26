@@ -19,6 +19,8 @@ class MongoDB: NSObject {
     var databasePath: String?
     var logPath: String?
     var runOnStartup: Bool?
+    var autoUpdates: Bool?
+    var updateTimer: NSTimer?
     var version: String?
     var versions: Array<String> = []
     
@@ -32,6 +34,7 @@ class MongoDB: NSObject {
         self.initDatabase()
         self.initLog()
         self.setStartup()
+        self.setUpdates()
         self.selectVersion()
     }
 
@@ -141,10 +144,19 @@ class MongoDB: NSObject {
     func enabledOnStartup() -> Bool {
         return self.runOnStartup!
     }
-    
+
     func runOnStartup(run: Bool) {
         self.ensureStartup(run)
         self.runOnStartup = run
+    }
+    
+    func enabledUpdates() -> Bool {
+        return self.autoUpdates!
+    }
+    
+    func scheduleUpdates(enabled: Bool) {
+        self.ensureUpdates(enabled)
+        self.autoUpdates = enabled
     }
     
     // MARK: Settings
@@ -165,6 +177,7 @@ class MongoDB: NSObject {
         defaults.synchronize()
     }
 
+    // MARK: Private Methods
     private
     
     func setDefaults() {
@@ -229,6 +242,30 @@ class MongoDB: NSObject {
             }
         } else if startup {
             self.addStartupItem()
+        }
+    }
+    
+    func setUpdates() {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        let updates = defaults.boolForKey("autoUpdate")
+        
+        self.ensureUpdates(updates)
+        self.autoUpdates = updates
+    }
+    
+    func ensureUpdates(update: Bool) {
+        
+        if update {
+            //14400
+            //self.updateTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "checkForUpdate", userInfo: nil, repeats: true)
+            
+            //Run a check now just in case
+            self.checkForUpdate()
+        }
+        else {
+            self.updateTimer?.invalidate()
+            self.updateTimer = nil
         }
     }
     
@@ -332,5 +369,59 @@ class MongoDB: NSObject {
                 LSSharedFileListItemRemove(loginItemsRef, itemRef);
             }
         }
+    }
+    
+    func checkForUpdate() {
+        NSLog("Checking for updates")
+        
+        //Access token 887c63214b45882b641b5d4e7a55f860e306b2a7
+        let url = NSURL(string: "https://api.github.com/repos/dfairaizl/mongodb-app/releases")
+        
+        let request = NSMutableURLRequest(URL: url!, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: 60)
+        request.setValue("Basic ODg3YzYzMjE0YjQ1ODgyYjY0MWI1ZDRlN2E1NWY4NjBlMzA2YjJhNzp4LW9hdXRoLWJhc2lj", forHTTPHeaderField: "Authorization")
+        
+        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response, data, error) -> Void in
+            let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as? NSArray
+            
+            if let latestRelease = json?[0] as? NSDictionary {
+                if let latestVersion = latestRelease["tag_name"] as? String {
+                    
+                    if let currentVersion = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
+                        
+                        if latestVersion > currentVersion {
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                self.notifyOfUpdate(latestRelease)
+                            })
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func notifyOfUpdate(versionData: NSDictionary) {
+        let center = NSUserNotificationCenter.defaultUserNotificationCenter()
+        let note = NSUserNotification()
+        
+        note.title = "New Version Available"
+        note.informativeText = "A new version of MongoDB is available."
+        note.hasActionButton = true
+        note.actionButtonTitle = "Update"
+        
+        var infoDictionary = [NSObject: AnyObject]()
+        infoDictionary.updateValue(versionData["name"]!, forKey: "releaseName")
+        infoDictionary.updateValue(versionData["name"]!, forKey: "releaseName")
+        
+        if let assets = versionData["assets"] as? NSArray {
+            if let asset = assets[0] as? NSDictionary {
+                infoDictionary.updateValue(asset["browser_download_url"]!, forKey: "downloadURL")
+            }
+        }
+        
+        note.userInfo = infoDictionary
+        
+        let delegate = NSApplication.sharedApplication().delegate as AppDelegate
+        center.delegate = delegate
+        center.deliverNotification(note)
     }
 }

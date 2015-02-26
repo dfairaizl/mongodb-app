@@ -32,6 +32,7 @@ class PreferencesViewController: NSViewController, PreferencesDownloadDelegate {
         let defaultsController = NSUserDefaultsController.sharedUserDefaultsController()
        
         defaultsController.addObserver(self, forKeyPath: "values.autoStartup", options: NSKeyValueObservingOptions.New, context: nil)
+        defaultsController.addObserver(self, forKeyPath: "values.autoUpdate", options: NSKeyValueObservingOptions.New, context: nil)
         defaultsController.addObserver(self, forKeyPath: "values.databasePath", options: NSKeyValueObservingOptions.New, context: nil)
         defaultsController.addObserver(self, forKeyPath: "values.logPath", options: NSKeyValueObservingOptions.New, context: nil)
         defaultsController.addObserver(self, forKeyPath: "values.mongodbVersion", options: NSKeyValueObservingOptions.New, context: nil)
@@ -41,6 +42,7 @@ class PreferencesViewController: NSViewController, PreferencesDownloadDelegate {
         let defaultsController = NSUserDefaultsController.sharedUserDefaultsController()
         
         defaultsController.removeObserver(self, forKeyPath: "values.autoStartup")
+        defaultsController.removeObserver(self, forKeyPath: "values.autoUpdate")
         defaultsController.removeObserver(self, forKeyPath: "values.databasePath")
         defaultsController.removeObserver(self, forKeyPath: "values.logPath")
         defaultsController.removeObserver(self, forKeyPath: "values.mongodbVersion")
@@ -56,6 +58,14 @@ class PreferencesViewController: NSViewController, PreferencesDownloadDelegate {
             }
             else {
                 MongoDB.sharedServer.runOnStartup(true)
+            }
+        }
+        else if keyPath == "values.autoUpdate" {
+            if MongoDB.sharedServer.enabledUpdates() {
+                MongoDB.sharedServer.scheduleUpdates(false)
+            }
+            else {
+                MongoDB.sharedServer.scheduleUpdates(true)
             }
         }
         else if keyPath == "values.databasePath" || keyPath == "values.logPath" {

@@ -9,7 +9,7 @@
 import Cocoa
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
     
     @IBOutlet weak var statusMenu: NSMenu!
     @IBOutlet weak var uiStartServerMenuItem: NSMenuItem!
@@ -57,6 +57,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func copyConnectionString(sender: AnyObject) {
         self.pasteBoard.declareTypes([NSPasteboardTypeString], owner: nil)
         self.pasteBoard.setString("mongodb://localhost:17017", forType: NSPasteboardTypeString)
+    }
+    
+    // MARK: NSUserNotificationCenterDelegate Methods
+    
+    func userNotificationCenter(center: NSUserNotificationCenter, didActivateNotification notification: NSUserNotification) {
+        
+        if notification.activationType == NSUserNotificationActivationType.ActionButtonClicked {
+            let info = notification.userInfo
+            NSLog("Updating now!")
+        }
+        else if notification.activationType == NSUserNotificationActivationType.ContentsClicked {
+            NSLog("Do you want to update now?")
+        }
     }
     
     // MARK: Private Helper Methods
