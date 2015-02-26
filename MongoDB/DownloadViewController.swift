@@ -69,27 +69,23 @@ class DownloadViewController: NSViewController, NSURLDownloadDelegate {
     }
     
     func download(download: NSURLDownload, didReceiveResponse response: NSURLResponse) {
-     
+        
         self.bytesReceived = 0
         self.response = response
+        
+        self.progressIndicator.minValue = 0.0
+        self.progressIndicator.maxValue = 100.0
     }
 
     func download(download: NSURLDownload, didReceiveDataOfLength length: Int) {
         
         let expectedLength = self.response?.expectedContentLength
-        self.bytesReceived = self.bytesReceived + length
+        self.bytesReceived += length
         
-        let complete = (Double(self.bytesReceived) / Double(expectedLength!))
-        let percentComplete = Int((Double(self.bytesReceived) / Double(expectedLength!)) * 100)
-     
-        if percentComplete >= 100 {
-            self.progressLabel.stringValue = "100%"
-        }
-        else {
-            self.progressLabel.stringValue = "\(percentComplete)%"
-        }
+        let complete = (Double(self.bytesReceived) / Double(expectedLength!)) * 100
+        self.progressLabel.stringValue = "\(Int(complete))%"
         
-        self.progressIndicator.incrementBy(complete)
+        self.progressIndicator.doubleValue = complete
     }
     
     func downloadDidFinish(download: NSURLDownload) {
