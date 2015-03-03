@@ -1031,8 +1031,8 @@
         <scene sceneID="HaC-tw-CK6">
             <objects>
                 <windowController storyboardIdentifier="MongoProgressWindow" id="Ktd-UU-xsJ" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="glJ-cs-C0t">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                    <window key="window" title="Downloading" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="glJ-cs-C0t">
+                        <windowStyleMask key="styleMask" titled="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="163" y="208" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1280" height="800"/>
@@ -1045,16 +1045,16 @@
             </objects>
             <point key="canvasLocation" x="1375" y="1432"/>
         </scene>
-        <!--Download View Controller-->
+        <!--Downloading-->
         <scene sceneID="5UZ-pk-CUF">
             <objects>
-                <viewController storyboardIdentifier="MongoProgressViewController" id="SSi-n7-oJw" customClass="DownloadViewController" customModule="MongoDB" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Downloading" storyboardIdentifier="MongoProgressViewController" id="SSi-n7-oJw" customClass="DownloadViewController" customModule="MongoDB" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="qRN-V2-7qe">
                         <rect key="frame" x="0.0" y="0.0" width="420" height="120"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="odx-CL-Ym2">
-                                <rect key="frame" x="359" y="54" width="43" height="17"/>
+                                <rect key="frame" x="359" y="52" width="43" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="0%" id="ISV-kU-uPc">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1075,7 +1075,7 @@ Gw
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XHp-f8-ORa">
-                                <rect key="frame" x="40" y="79" width="362" height="17"/>
+                                <rect key="frame" x="106" y="79" width="249" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Downloading MongoDB version x.x.x" id="LFJ-K3-Mog">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1083,8 +1083,12 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <progressIndicator fixedFrame="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="ndX-hQ-eLd">
-                                <rect key="frame" x="42" y="52" width="311" height="20"/>
+                                <rect key="frame" x="108" y="50" width="245" height="20"/>
                             </progressIndicator>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L8e-DY-Q7A">
+                                <rect key="frame" x="20" y="28" width="64" height="64"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSApplicationIcon" id="e4g-6Z-YlQ"/>
+                            </imageView>
                         </subviews>
                     </view>
                     <connections>
@@ -1100,6 +1104,7 @@ Gw
     </scenes>
     <resources>
         <image name="MongoDB-Icon" width="256" height="256"/>
+        <image name="NSApplicationIcon" width="128" height="128"/>
         <image name="NSSmartBadgeTemplate" width="14" height="14"/>
         <image name="NSStatusUnavailable" width="16" height="16"/>
     </resources>
