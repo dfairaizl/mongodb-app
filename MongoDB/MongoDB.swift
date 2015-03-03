@@ -18,6 +18,7 @@ class MongoDB: NSObject {
     
     var databasePath: String?
     var logPath: String?
+    var port: String = "27017"
     var runOnStartup: Bool?
     var autoUpdates: Bool?
     var updateTimer: NSTimer?
@@ -112,23 +113,6 @@ class MongoDB: NSObject {
         NSNotificationCenter.defaultCenter().postNotificationName("ServerStoppedSuccessfullyNotification", object: nil)
     }
     
-    func spawnProcess(#databasePath: String, logPath: String) -> Bool {
-
-        if let mongod = self.mongodPath() {
-            let args = ["--dbpath=\(databasePath)", "--logpath", "\(logPath)", "--logappend"]
-            
-            self.processPipe = NSPipe()
-            
-            self.process = NSTask.runProcess(mongod, pipe: self.processPipe!, withArguments: args, { (out: String) -> Void in
-                // NOTE - There is no stdout from mongod when it started successfully in the foreground (output goes to log)
-            })
-            
-            return true
-        }
-        
-        return false
-    }
-    
     func isRunning() -> Bool {
         return self.process? != nil
     }
@@ -179,6 +163,23 @@ class MongoDB: NSObject {
 
     // MARK: Private Methods
     private
+    
+    func spawnProcess(#databasePath: String, logPath: String) -> Bool {
+        
+        if let mongod = self.mongodPath() {
+            let args = ["--dbpath=\(databasePath)", "--logpath", "\(logPath)", "--port \(self.port)", "--logappend"]
+            
+            self.processPipe = NSPipe()
+            
+            self.process = NSTask.runProcess(mongod, pipe: self.processPipe!, withArguments: args, { (out: String) -> Void in
+                // NOTE - There is no stdout from mongod when it started successfully in the foreground (output goes to log)
+            })
+            
+            return true
+        }
+        
+        return false
+    }
     
     func setDefaults() {
         

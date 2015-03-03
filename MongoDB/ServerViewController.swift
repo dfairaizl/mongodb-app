@@ -85,7 +85,7 @@ class ServerViewController: NSViewController {
    
    func enableUI() {
       
-      self.serverStatusLabel.stringValue = "Connected to localhost"
+      self.serverStatusLabel.stringValue = "Running on port \(MongoDB.sharedServer.port)"
       self.serverStatusImageView.image = NSImage(named: NSImageNameStatusAvailable)
       
       self.animateIcon(from: 0.8, to: 0.0)
