@@ -9,7 +9,7 @@
 import Cocoa
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate, DownloadDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
     
     @IBOutlet weak var statusMenu: NSMenu!
     @IBOutlet weak var uiStartServerMenuItem: NSMenuItem!
@@ -18,9 +18,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     let systemMenu: NSStatusBar = NSStatusBar.systemStatusBar()
     var statusItem: NSStatusItem!
     var pasteBoard = NSPasteboard.generalPasteboard()
-    
-    var appUpdateInfo: [NSObject: AnyObject]?
-    var windowController: NSWindowController?
     
     // MARK: NSApplicationDelegate Methods
 
@@ -68,7 +65,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         
         if notification.activationType == NSUserNotificationActivationType.ActionButtonClicked {
             if let info = notification.userInfo {
-                self.updateApp(info)
+                NSLog("Updating app now!")
             }
         }
         else if notification.activationType == NSUserNotificationActivationType.ContentsClicked {
@@ -76,53 +73,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         }
     }
     
-    // MARK: DownloadDelegate Methods
-    func urlForDownload() -> NSURL {
-        let url = "https://github.com/PostgresApp/PostgresApp/releases/download/9.4.1.0/Postgres-9.4.1.0.zip" //self.appUpdateInfo?["downloadURL"] as String
-        return NSURL(string: url)!
-    }
-    
-    func messageForDownload() -> String {
-        return "Downloading update, please wait..."
-    }
-    
-    func downloadDidFinishSuccessfully(downloadedFile: NSURL) {
-        NSApp.stopModal()
-        self.windowController?.close()
-    }
-    
-    func downloadWasCancelled() {
-        self.windowController?.close()
-    }
-    
-    func downloadDidFailWithError(error: NSError?) {
-        
-        var errorAlert = NSAlert()
-        errorAlert.addButtonWithTitle("Okay")
-        errorAlert.messageText = "Error downloading MongoDB version!"
-        errorAlert.informativeText = error!.localizedDescription
-        errorAlert.alertStyle = NSAlertStyle.WarningAlertStyle
-        
-        errorAlert.beginSheetModalForWindow(self.windowController!.window!, completionHandler: { (response) -> Void in
-            self.windowController!.close()
-        })
-    }
-    
     // MARK: Private Helper Methods
     
     private
-    
-    func updateApp(info: [NSObject: AnyObject]) {
-        
-        self.appUpdateInfo = info
-        
-        self.windowController = NSStoryboard(name: "Main", bundle: nil)?.instantiateControllerWithIdentifier("MongoProgressWindow") as? NSWindowController
-        let downloadViewController = windowController!.contentViewController! as DownloadViewController
-        
-        downloadViewController.downloadDelegate = self
-        
-        windowController?.showWindow(self)
-    }
     
     func setupStatusItemMenu() {
 

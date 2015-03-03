@@ -261,7 +261,7 @@ class MongoDB: NSObject {
             //self.updateTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "checkForUpdate", userInfo: nil, repeats: true)
             
             //Run a check now just in case
-            self.checkForUpdate()
+            //self.checkForUpdate()
         }
         else {
             self.updateTimer?.invalidate()
@@ -422,8 +422,8 @@ class MongoDB: NSObject {
         
         note.userInfo = infoDictionary
         
-        let delegate = NSApplication.sharedApplication().delegate as AppDelegate
-        center.delegate = delegate
+//        let delegate = NSApplication.sharedApplication().delegate as AppDelegate
+//        center.delegate = delegate
         center.deliverNotification(note)
     }
 }
