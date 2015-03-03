@@ -96,7 +96,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }
     
     func downloadDidFailWithError(error: NSError?) {
-        self.windowController?.close()
+        
+        var errorAlert = NSAlert()
+        errorAlert.addButtonWithTitle("Okay")
+        errorAlert.messageText = "Error downloading MongoDB version!"
+        errorAlert.informativeText = error!.localizedDescription
+        errorAlert.alertStyle = NSAlertStyle.WarningAlertStyle
+        
+        errorAlert.beginSheetModalForWindow(self.windowController!.window!, completionHandler: { (response) -> Void in
+            self.windowController!.close()
+        })
     }
     
     // MARK: Private Helper Methods

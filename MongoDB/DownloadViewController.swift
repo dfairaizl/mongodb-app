@@ -84,11 +84,16 @@ class DownloadViewController: NSViewController, NSURLSessionDelegate, NSURLSessi
     func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
         
         self.progressIndicator.stopAnimation(self.downloadTask)
-        
         self.downloadSession?.invalidateAndCancel()
         
         // Check server response status codes for error checking
-        
-        self.downloadDelegate?.downloadDidFailWithError(nil)
+        if let response = task.response as? NSHTTPURLResponse {
+            if response.statusCode != 200 {
+                self.downloadDelegate?.downloadDidFailWithError(error)
+            }
+            else {
+                self.downloadDelegate?.downloadDidFailWithError(nil)
+            }
+        }
     }
 }
