@@ -1,4 +1,4 @@
-//
+t//
 //  MongoDB.swift
 //  MongoDB
 //
@@ -409,12 +409,11 @@ class MongoDB: NSObject {
         note.actionButtonTitle = "Update"
         
         var infoDictionary = [NSObject: AnyObject]()
-        infoDictionary.updateValue(versionData["name"]!, forKey: "releaseName")
-        infoDictionary.updateValue(versionData["name"]!, forKey: "releaseName")
+        infoDictionary["releaseName"] = versionData["name"]!
         
         if let assets = versionData["assets"] as? NSArray {
             if let asset = assets[0] as? NSDictionary {
-                infoDictionary.updateValue(asset["browser_download_url"]!, forKey: "downloadURL")
+                infoDictionary["downloadURL"] = asset["browser_download_url"]!
             }
         }
         

@@ -8,13 +8,7 @@
 
 import Cocoa
 
-protocol PreferencesDownloadDelegate {
-    func downloadWasCancelled()
-    func downloadDidFinishSuccessfully(downloadedFile: NSURL, forVersion: String)
-    func downloadDidFailWithError(error: NSError)
-}
-
-class PreferencesViewController: NSViewController, PreferencesDownloadDelegate {
+class PreferencesViewController: NSViewController, DownloadDelegate {
     
     @IBOutlet weak var changeVersionButton: NSButton!
     @IBOutlet weak var latestVersionButton: NSButton!
@@ -136,17 +130,28 @@ class PreferencesViewController: NSViewController, PreferencesDownloadDelegate {
         MongoDB.sharedServer.setPreference(latestVersion, forKey: "mongodbVersion")
     }
     
-    // MARK: PreferencesDownloadDelegate Methods
+    // MARK: DownloadDelegate Methods
+    
+    func urlForDownload() -> NSURL {
+        return self.urlForVersion(MongoDB.sharedServer.preferenceForKey("mongodbVersion")!)
+    }
+    
+    func messageForDownload() -> String {
+        let version = MongoDB.sharedServer.preferenceForKey("mongodbVersion")!
+        return "Downloading MongoDB version \(version)"
+    }
     
     func downloadWasCancelled() {
         self.closeModal(self.progressWindow!.window!, withResponseCode: NSModalResponseCancel)
     }
     
-    func downloadDidFinishSuccessfully(downloadedFile: NSURL, forVersion: String) {
+    func downloadDidFinishSuccessfully(downloadedFile: NSURL) {
+        
+        let version = MongoDB.sharedServer.preferenceForKey("mongodbVersion")!
         
         let manager = NSFileManager.defaultManager()
         let bundlePath = NSBundle.mainBundle().bundlePath
-        let path = bundlePath.stringByAppendingPathComponent("Contents/MongoDB/\(forVersion)")
+        let path = bundlePath.stringByAppendingPathComponent("Contents/MongoDB/\(version)")
         
         manager.createDirectoryAtPath(path, withIntermediateDirectories: true, attributes: nil, error: nil)
         
@@ -155,12 +160,12 @@ class PreferencesViewController: NSViewController, PreferencesDownloadDelegate {
         self.closeModal(self.progressWindow!.window!, withResponseCode: NSModalResponseOK)
     }
     
-    func downloadDidFailWithError(error: NSError) {
+    func downloadDidFailWithError(error: NSError?) {
         
         var errorAlert = NSAlert()
         errorAlert.addButtonWithTitle("Okay")
         errorAlert.messageText = "Error downloading MongoDB version!"
-        errorAlert.informativeText = error.localizedDescription
+        errorAlert.informativeText = error!.localizedDescription
         errorAlert.alertStyle = NSAlertStyle.WarningAlertStyle
         
         errorAlert.beginSheetModalForWindow(self.view.window!, completionHandler: { (response) -> Void in
@@ -184,8 +189,7 @@ class PreferencesViewController: NSViewController, PreferencesDownloadDelegate {
         self.progressWindow = self.storyboard?.instantiateControllerWithIdentifier("MongoProgressWindow") as? NSWindowController
         let downloadViewController = self.progressWindow!.contentViewController! as DownloadViewController
         
-        downloadViewController.version = version
-        downloadViewController.preferencesDelegate = self
+        downloadViewController.downloadDelegate = self
 
         self.view.window!.beginSheet(self.progressWindow!.window!, completionHandler: { (response) -> Void in
 
@@ -234,5 +238,9 @@ class PreferencesViewController: NSViewController, PreferencesDownloadDelegate {
     
     func closeModal(modal: NSWindow, withResponseCode responseCode: NSModalResponse) {
         self.view.window!.endSheet(modal, returnCode: responseCode)
+    }
+    
+    func urlForVersion(version: String) -> NSURL {
+        return NSURL(string: "http://downloads.mongodb.org/osx/mongodb-osx-x86_64-\(version).tgz")!
     }
 }

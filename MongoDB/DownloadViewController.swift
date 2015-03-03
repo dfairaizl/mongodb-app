@@ -8,102 +8,87 @@
 
 import Cocoa
 
-class DownloadViewController: NSViewController, NSURLDownloadDelegate {
+protocol DownloadDelegate {
+    func urlForDownload() -> NSURL
+    func messageForDownload() -> String
+    func downloadWasCancelled()
+    func downloadDidFinishSuccessfully(downloadedFile: NSURL)
+    func downloadDidFailWithError(error: NSError?)
+}
+
+class DownloadViewController: NSViewController, NSURLSessionDelegate, NSURLSessionDownloadDelegate {
     
     @IBOutlet weak var downloadingLabel: NSTextField!
     @IBOutlet weak var progressLabel: NSTextField!
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
     
-    var preferencesDelegate: PreferencesDownloadDelegate?
-    var version: String = ""
+    var downloadDelegate: DownloadDelegate?
     
-    var download: NSURLDownload?
-    var downloadedURL: NSURL?
-    var response: NSURLResponse?
-    var bytesReceived: Int64 = 0
+    var downloadSession: NSURLSession?
+    var downloadTask: NSURLSessionDownloadTask?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
+        
+        let configiration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        self.downloadSession = NSURLSession(configuration: configiration, delegate: self, delegateQueue: NSOperationQueue.currentQueue())
     }
     
     override func viewWillAppear() {
-        self.downloadingLabel.stringValue = "Downloading MongoDB version \(self.version)"
+        self.downloadingLabel.stringValue = self.downloadDelegate!.messageForDownload()
     }
     
     override func viewDidAppear() {
-        if let url = urlForVersion(self.version) {
-            let request = NSURLRequest(URL: url, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: 60.0)
+        if let url = self.downloadDelegate?.urlForDownload() {
+            let request = NSMutableURLRequest(URL: url, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: 60)
+            //request.setValue("Basic ODg3YzYzMjE0YjQ1ODgyYjY0MWI1ZDRlN2E1NWY4NjBlMzA2YjJhNzp4LW9hdXRoLWJhc2lj", forHTTPHeaderField: "Authorization")
             
-            self.download = NSURLDownload(request: request, delegate: self)
+            self.downloadTask = self.downloadSession?.downloadTaskWithRequest(request)
+            self.downloadTask?.resume()
             
-            if self.download == nil {
-                NSLog("Error starting download!")
-            }
+            self.progressIndicator.startAnimation(self.downloadTask)
         }
     }
     
     // MARK: UI ACTIONS
+    
     @IBAction func cancelDownload(sender: AnyObject) {
         
-        self.download?.cancel()
-        self.preferencesDelegate?.downloadWasCancelled()
+        self.downloadTask?.cancel()
+        self.downloadSession?.invalidateAndCancel()
+  
+        self.downloadDelegate?.downloadWasCancelled()
     }
     
-    // MARK: NSURLDownload Methods
+    // MARK: NSURLSessionDownloadDelegate Methods
     
-    func download(download: NSURLDownload, decideDestinationWithSuggestedFilename filename: String) {
+    func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         
-        let manager = NSFileManager.defaultManager()
-        let urls = manager.URLsForDirectory(NSSearchPathDirectory.CachesDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask)
+        self.progressIndicator.maxValue = Double(totalBytesExpectedToWrite)
         
-        if urls.count > 0 {
-            let url = urls.last as NSURL
-            self.downloadedURL = url.URLByAppendingPathComponent(filename)
-            download.setDestination(self.downloadedURL!.path!, allowOverwrite: false)
-        }
+        self.progressIndicator.doubleValue = Double(totalBytesWritten)
+        let progress = Int((Double(totalBytesWritten) / Double(totalBytesExpectedToWrite)) * 100)
+        self.progressLabel.stringValue = "\(progress)%"
     }
     
-    func downloadDidBegin(download: NSURLDownload) {
-        self.progressIndicator.startAnimation(self.download)
-    }
-    
-    func download(download: NSURLDownload, didReceiveResponse response: NSURLResponse) {
+    func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
         
-        self.bytesReceived = 0
-        self.response = response
+        self.progressIndicator.stopAnimation(self.downloadTask)
         
-        self.progressIndicator.minValue = 0.0
-        self.progressIndicator.maxValue = 100.0
-    }
+        self.downloadSession?.finishTasksAndInvalidate()
 
-    func download(download: NSURLDownload, didReceiveDataOfLength length: Int) {
-        
-        let expectedLength = self.response?.expectedContentLength
-        self.bytesReceived += length
-        
-        let complete = (Double(self.bytesReceived) / Double(expectedLength!)) * 100
-        self.progressLabel.stringValue = "\(Int(complete))%"
-        
-        self.progressIndicator.doubleValue = complete
+        self.downloadDelegate?.downloadDidFinishSuccessfully(location)
     }
     
-    func downloadDidFinish(download: NSURLDownload) {
-        self.progressIndicator.stopAnimation(self.download)
+    func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
         
-        self.preferencesDelegate?.downloadDidFinishSuccessfully(self.downloadedURL!, forVersion: self.version)
-    }
-    
-    func download(download: NSURLDownload, didFailWithError error: NSError) {
-        self.progressIndicator.stopAnimation(self.download)
-        self.preferencesDelegate?.downloadDidFailWithError(error)
-    }
-    
-    // MARK: Private Methods
-    
-    private
-    
-    func urlForVersion(version: String) -> NSURL? {
-        return NSURL(string: "http://downloads.mongodb.org/osx/mongodb-osx-x86_64-\(version).tgz")
+        self.progressIndicator.stopAnimation(self.downloadTask)
+        
+        self.downloadSession?.invalidateAndCancel()
+        
+        // Check server response status codes for error checking
+        
+        self.downloadDelegate?.downloadDidFailWithError(nil)
     }
 }

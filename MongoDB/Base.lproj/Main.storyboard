@@ -1048,7 +1048,7 @@
         <!--Download View Controller-->
         <scene sceneID="5UZ-pk-CUF">
             <objects>
-                <viewController storyboardIdentifier="DownloadViewController" id="SSi-n7-oJw" customClass="DownloadViewController" customModule="MongoDB" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MongoProgressViewController" id="SSi-n7-oJw" customClass="DownloadViewController" customModule="MongoDB" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="qRN-V2-7qe">
                         <rect key="frame" x="0.0" y="0.0" width="420" height="120"/>
                         <autoresizingMask key="autoresizingMask"/>
