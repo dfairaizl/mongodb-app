@@ -167,7 +167,7 @@ class MongoDB: NSObject {
     func spawnProcess(#databasePath: String, logPath: String) -> Bool {
         
         if let mongod = self.mongodPath() {
-            let args = ["--dbpath=\(databasePath)", "--logpath", "\(logPath)", "--port \(self.port)", "--logappend"]
+            let args = ["--dbpath=\(databasePath)", "--logpath", "\(logPath)", "--port", self.port, "--logappend"]
             
             self.processPipe = NSPipe()
             
@@ -295,7 +295,7 @@ class MongoDB: NSObject {
     func mongodPath() -> String? {
         if let version = self.version {
             let bundlePath = NSBundle.mainBundle().bundlePath
-            return bundlePath.stringByAppendingPathComponent("Contents/MongoDB/\(version)/bin/mongod")
+            return bundlePath.stringByAppendingPathComponent("Contents/MongoDB/\(version)/bin/mongod").stringByStandardizingPath
         }
         
         return nil
