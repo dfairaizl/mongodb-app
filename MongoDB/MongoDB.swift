@@ -166,6 +166,15 @@ class MongoDB: NSObject {
     
     func spawnProcess(#databasePath: String, logPath: String) -> Bool {
         
+        //Check for presence of fs lock file
+        if self.lockFilePresent(databasePath) && self.unsafeShutdown(databasePath) {
+
+            //Clean up and notify?
+            if let error = self.removeLockFile(databasePath) {
+                NSLog("Error removing lock file!")
+            }
+        }
+        
         if let mongod = self.mongodPath() {
             let args = ["--dbpath=\(databasePath)", "--logpath", "\(logPath)", "--port", self.port, "--logappend"]
             
@@ -179,6 +188,38 @@ class MongoDB: NSObject {
         }
         
         return false
+    }
+    
+    func lockFilePresent(databasePath: NSString) -> Bool {
+        
+        let fileManager = NSFileManager.defaultManager()
+        let lockFile = databasePath.stringByAppendingPathComponent("mongod.lock")
+        
+        return fileManager.fileExistsAtPath(lockFile)
+    }
+    
+    func unsafeShutdown(databasePath: NSString) -> Bool {
+     
+        let fileManager = NSFileManager.defaultManager()
+        let lockFile = databasePath.stringByAppendingPathComponent("mongod.lock")
+        var error: NSError?
+        
+        if let attributes: NSDictionary = fileManager.attributesOfItemAtPath(lockFile, error: &error) {
+            return attributes.fileSize() > 0
+        }
+        
+        return false
+    }
+    
+    func removeLockFile(databasePath: NSString) -> NSError? {
+
+        var error: NSError?
+        let fileManager = NSFileManager.defaultManager()
+        let lockFile = databasePath.stringByAppendingPathComponent("mongod.lock")
+        
+        fileManager.removeItemAtPath(lockFile, error: &error)
+        
+        return error
     }
     
     func setDefaults() {
