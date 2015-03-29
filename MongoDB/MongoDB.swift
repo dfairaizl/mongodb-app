@@ -143,6 +143,24 @@ class MongoDB: NSObject {
         self.autoUpdates = enabled
     }
     
+    func mongodPath() -> String? {
+        if let version = self.version {
+            let bundlePath = NSBundle.mainBundle().bundlePath
+            return bundlePath.stringByAppendingPathComponent("Contents/MongoDB/\(version)/bin/mongod").stringByStandardizingPath
+        }
+        
+        return nil
+    }
+    
+    func mongoPath() -> String? {
+        if let version = self.version {
+            let bundlePath = NSBundle.mainBundle().bundlePath
+            return bundlePath.stringByAppendingPathComponent("Contents/MongoDB/\(version)/bin/mongo").stringByStandardizingPath
+        }
+        
+        return nil
+    }
+    
     // MARK: Settings
     func preferenceForKey(key: String) -> String? {
         let defaults = NSUserDefaults.standardUserDefaults()
@@ -331,15 +349,6 @@ class MongoDB: NSObject {
         }
         
         return appSupportDir
-    }
-    
-    func mongodPath() -> String? {
-        if let version = self.version {
-            let bundlePath = NSBundle.mainBundle().bundlePath
-            return bundlePath.stringByAppendingPathComponent("Contents/MongoDB/\(version)/bin/mongod").stringByStandardizingPath
-        }
-        
-        return nil
     }
     
     func applicationIsInStartUpItems() -> Bool {

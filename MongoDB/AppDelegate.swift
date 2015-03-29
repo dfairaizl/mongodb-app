@@ -47,7 +47,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     @IBAction func openShell(sender: AnyObject) {
         
-        MDBTerminalScript.sharedInstance().runCommand("mongo")
+        if let mongo = MongoDB.sharedServer.mongoPath() {
+            MDBTerminalScript.sharedInstance().runCommand(mongo)
+        }
     }
     
     @IBAction func openPreferences(sender: AnyObject) {
