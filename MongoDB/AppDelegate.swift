@@ -90,12 +90,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         
         self.statusItem.menu = self.statusMenu
         
-        NSNotificationCenter.defaultCenter().addObserverForName("ServerStartedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), { (note: NSNotification!) -> Void in
+        NSNotificationCenter.defaultCenter().addObserverForName("ServerStartedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { (note: NSNotification!) -> Void in
             self.uiStartServerMenuItem.enabled = false
             self.uiRestartServerMenuItem.enabled = true
         })
         
-        NSNotificationCenter.defaultCenter().addObserverForName("ServerStoppedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), { (note: NSNotification!) -> Void in
+        NSNotificationCenter.defaultCenter().addObserverForName("ServerStoppedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { (note: NSNotification!) -> Void in
             self.uiStartServerMenuItem.enabled = true
             self.uiRestartServerMenuItem.enabled = false
         })

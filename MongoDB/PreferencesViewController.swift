@@ -187,7 +187,7 @@ class PreferencesViewController: NSViewController, DownloadDelegate {
     func downloadVersion(version: String) {
         
         self.progressWindow = self.storyboard?.instantiateControllerWithIdentifier("MongoProgressWindow") as? NSWindowController
-        let downloadViewController = self.progressWindow!.contentViewController! as DownloadViewController
+        let downloadViewController = self.progressWindow!.contentViewController! as! DownloadViewController
         
         downloadViewController.downloadDelegate = self
 
@@ -230,7 +230,7 @@ class PreferencesViewController: NSViewController, DownloadDelegate {
         
         panel.beginWithCompletionHandler( { (result: Int) in
             if result == NSFileHandlingPanelOKButton {
-                let url = panel.URLs[0] as NSURL
+                let url = panel.URLs[0] as! NSURL
                 MongoDB.sharedServer.setPreference(url.path!, forKey: key)
             }
         })

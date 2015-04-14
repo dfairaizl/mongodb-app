@@ -12,7 +12,7 @@ extension NSImageView {
     
     func setFilters(filters: NSArray, from: Float, to: Float, animated: Bool = true) {
         
-        self.layer!.filters = filters
+        self.layer!.filters = filters as [AnyObject]
         
         if animated {
             var filterAnimation = CABasicAnimation()

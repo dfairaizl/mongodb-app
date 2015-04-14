@@ -61,17 +61,17 @@ class ServerViewController: NSViewController {
    
    func registerServerNotifications() {
       
-      NSNotificationCenter.defaultCenter().addObserverForName("ServerStartedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), { (note: NSNotification!) -> Void in
+      NSNotificationCenter.defaultCenter().addObserverForName("ServerStartedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { (note: NSNotification!) -> Void in
          
          self.enableUI()
       })
       
-      NSNotificationCenter.defaultCenter().addObserverForName("ServerStoppedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), { (note: NSNotification!) -> Void in
+      NSNotificationCenter.defaultCenter().addObserverForName("ServerStoppedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { (note: NSNotification!) -> Void in
          
          self.disableUI()
       })
       
-      NSNotificationCenter.defaultCenter().addObserverForName("ServerRestartedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), { (note: NSNotification!) -> Void in
+      NSNotificationCenter.defaultCenter().addObserverForName("ServerRestartedSuccessfullyNotification", object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { (note: NSNotification!) -> Void in
          
          if !self.uiEnabled {
             self.enableUI()

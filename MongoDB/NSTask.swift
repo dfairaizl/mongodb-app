@@ -10,7 +10,7 @@ import Cocoa
 
 extension NSTask {
     
-    class func executeSyncTask(binPath: String, withArguments args: Array<String>) -> (String?, String?) {
+    class func executeSyncTask(binPath: String, withArguments args: Array<String>) -> (NSString?, NSString?) {
         
         var task = NSTask()
         
@@ -44,14 +44,14 @@ extension NSTask {
         
         pipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
         
-        NSNotificationCenter.defaultCenter().addObserverForName(NSFileHandleDataAvailableNotification, object: pipe.fileHandleForReading, queue: mainQueue, { (note: NSNotification!) -> Void in
+        NSNotificationCenter.defaultCenter().addObserverForName(NSFileHandleDataAvailableNotification, object: pipe.fileHandleForReading, queue: mainQueue, usingBlock: { (note: NSNotification!) -> Void in
             
-            let handle: NSFileHandle = note.object as NSFileHandle
+            let handle: NSFileHandle = note.object as! NSFileHandle
             let data = handle.availableData
             
             if data.length > 0 {
                 if let stdOut = NSString(data: data, encoding: NSUTF8StringEncoding) {
-                    completion(stdOut)
+                    completion(stdOut as String)
                 }
                 
                 handle.waitForDataInBackgroundAndNotify()
