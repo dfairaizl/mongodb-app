@@ -20,6 +20,9 @@ class PreferencesViewController: NSViewController, DownloadDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
+        
+        self.view.wantsLayer = true
+        self.view.layer!.backgroundColor = CGColorGetConstantColor(kCGColorWhite)
     }
     
     override func viewDidAppear() {

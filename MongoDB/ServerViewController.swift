@@ -21,6 +21,9 @@ class ServerViewController: NSViewController {
    override func viewDidLoad() {
       super.viewDidLoad()
       // Do view setup here.
+      
+      self.view.wantsLayer = true
+      self.view.layer!.backgroundColor = CGColorGetConstantColor(kCGColorWhite)
 
       self.iconImageView.wantsLayer = true
       self.iconImageView.layerUsesCoreImageFilters = true
