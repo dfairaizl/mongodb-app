@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E17e" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E33b" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
     </dependencies>
@@ -728,20 +728,24 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ServerViewController" customModule="MongoDB" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="300" height="330"/>
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="325"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Zd0-rJ-3d0">
-                                <rect key="frame" x="22" y="44" width="256" height="256"/>
+                                <rect key="frame" x="22" y="39" width="256" height="256"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="256" id="3fu-AP-1ni"/>
                                     <constraint firstAttribute="height" constant="256" id="83e-zN-CSQ"/>
                                 </constraints>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="MongoDB-Icon" id="FeU-fE-q99"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="Server-Logo" id="FeU-fE-q99"/>
                             </imageView>
                             <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hSb-eJ-7Fe">
-                                <rect key="frame" x="265" y="10" width="25" height="25"/>
-                                <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zPb-SB-vfj">
+                                <rect key="frame" x="266" y="7" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="C5g-R3-Yi7"/>
+                                    <constraint firstAttribute="width" constant="24" id="rWZ-pU-WxZ"/>
+                                </constraints>
+                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="Question-Icon" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="zPb-SB-vfj">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -750,12 +754,12 @@
                                 </connections>
                             </button>
                             <button focusRingType="none" horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Qf8-q2-MSA">
-                                <rect key="frame" x="9" y="10" width="26" height="26"/>
+                                <rect key="frame" x="10" y="7" width="24" height="24"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="26" id="G25-eP-O0O"/>
-                                    <constraint firstAttribute="height" constant="26" id="cO0-Qo-O6W"/>
+                                    <constraint firstAttribute="width" constant="24" id="G25-eP-O0O"/>
+                                    <constraint firstAttribute="height" constant="24" id="cO0-Qo-O6W"/>
                                 </constraints>
-                                <buttonCell key="cell" type="bevel" bezelStyle="circular" image="NSSmartBadgeTemplate" imagePosition="only" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="avW-eG-peM">
+                                <buttonCell key="cell" type="bevel" bezelStyle="circular" image="Gear-Icon" imagePosition="only" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="avW-eG-peM">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -763,32 +767,38 @@
                                     <segue destination="zVe-dT-xE0" kind="show" id="fu3-rL-xCq"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZBz-ga-rpO">
-                                <rect key="frame" x="101" y="15" width="98" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Not Connected" id="Wub-qP-l4e">
-                                    <font key="font" metaFont="system"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1KG-LQ-OdO">
+                                <rect key="frame" x="116" y="7" width="89" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="85" id="ceE-AN-qzU"/>
+                                    <constraint firstAttribute="height" constant="17" id="dmF-pj-Anc"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Not Connected" id="cR7-Xv-KMl">
+                                    <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <imageView translatesAutoresizingMaskIntoConstraints="NO" id="BAW-gn-CuE">
-                                <rect key="frame" x="57" y="15" width="41" height="16"/>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="NSStatusUnavailable" id="D7M-7D-E5s"/>
+                            <imageView translatesAutoresizingMaskIntoConstraints="NO" id="yLP-te-pXC">
+                                <rect key="frame" x="94" y="9" width="16" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="16" id="Hby-bz-VHA"/>
+                                    <constraint firstAttribute="width" constant="16" id="Vjq-mC-GTC"/>
+                                </constraints>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="NSStatusUnavailable" id="mgV-eU-zC2"/>
                             </imageView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="Zd0-rJ-3d0" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="22" id="26m-us-eR0"/>
-                            <constraint firstItem="Qf8-q2-MSA" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="9" id="3ig-88-0rd"/>
-                            <constraint firstItem="hSb-eJ-7Fe" firstAttribute="top" secondItem="Zd0-rJ-3d0" secondAttribute="bottom" constant="10" id="3s3-9V-dQr"/>
-                            <constraint firstItem="ZBz-ga-rpO" firstAttribute="centerY" secondItem="hSb-eJ-7Fe" secondAttribute="centerY" id="BsD-GU-dD5"/>
-                            <constraint firstAttribute="centerX" secondItem="ZBz-ga-rpO" secondAttribute="centerX" id="ByT-Fo-bWl"/>
-                            <constraint firstAttribute="trailing" secondItem="hSb-eJ-7Fe" secondAttribute="trailing" constant="12" id="Cym-nY-V6K"/>
-                            <constraint firstItem="Qf8-q2-MSA" firstAttribute="top" secondItem="Zd0-rJ-3d0" secondAttribute="bottom" constant="8" id="Gup-b4-QFc"/>
                             <constraint firstItem="Zd0-rJ-3d0" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="30" id="H7i-NY-ShB"/>
-                            <constraint firstItem="ZBz-ga-rpO" firstAttribute="leading" secondItem="BAW-gn-CuE" secondAttribute="trailing" constant="5" id="XpK-bQ-wZo"/>
-                            <constraint firstItem="BAW-gn-CuE" firstAttribute="leading" secondItem="Qf8-q2-MSA" secondAttribute="trailing" priority="800" constant="22" id="lcl-43-RhU"/>
-                            <constraint firstItem="BAW-gn-CuE" firstAttribute="centerY" secondItem="ZBz-ga-rpO" secondAttribute="centerY" id="mk7-Xo-msW"/>
-                            <constraint firstAttribute="bottom" secondItem="hSb-eJ-7Fe" secondAttribute="bottom" constant="13" id="ucX-BU-Q66"/>
+                            <constraint firstItem="Qf8-q2-MSA" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="10" id="JBZ-zd-oiv"/>
+                            <constraint firstAttribute="centerX" secondItem="1KG-LQ-OdO" secondAttribute="centerX" constant="-10" id="NEW-Ho-SJ3"/>
+                            <constraint firstItem="yLP-te-pXC" firstAttribute="centerY" secondItem="1KG-LQ-OdO" secondAttribute="centerY" constant="-1.5" id="Q5M-fk-6tY"/>
+                            <constraint firstItem="Qf8-q2-MSA" firstAttribute="top" secondItem="Zd0-rJ-3d0" secondAttribute="bottom" constant="8" id="Tkm-z0-eFG"/>
+                            <constraint firstItem="Qf8-q2-MSA" firstAttribute="bottom" secondItem="1KG-LQ-OdO" secondAttribute="bottom" id="V3h-Kh-uOc"/>
+                            <constraint firstItem="1KG-LQ-OdO" firstAttribute="leading" secondItem="yLP-te-pXC" secondAttribute="trailing" constant="8" id="hTu-vL-unB"/>
+                            <constraint firstAttribute="trailing" secondItem="hSb-eJ-7Fe" secondAttribute="trailing" constant="10" id="omP-2b-vUp"/>
+                            <constraint firstItem="hSb-eJ-7Fe" firstAttribute="top" secondItem="Zd0-rJ-3d0" secondAttribute="bottom" constant="8" id="riU-ot-ZaW"/>
                         </constraints>
                         <backgroundFilters>
                             <ciFilter name="CIColorMonochrome">
@@ -802,13 +812,14 @@
                     </view>
                     <connections>
                         <outlet property="iconImageView" destination="Zd0-rJ-3d0" id="e60-ac-fVb"/>
-                        <outlet property="serverStatusImageView" destination="BAW-gn-CuE" id="IRh-Gh-FHc"/>
-                        <outlet property="serverStatusLabel" destination="ZBz-ga-rpO" id="3WG-47-Oj3"/>
+                        <outlet property="serverStatusImageView" destination="yLP-te-pXC" id="983-Rh-HPq"/>
+                        <outlet property="serverStatusLabel" destination="1KG-LQ-OdO" id="41e-w5-TAP"/>
+                        <outlet property="serverStatusLabelConstraint" destination="ceE-AN-qzU" id="LRq-S0-2ed"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="74" y="789"/>
+            <point key="canvasLocation" x="74" y="788.5"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="9ke-s7-Znb">
@@ -1024,6 +1035,10 @@
                             </box>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="changeVersionButton" destination="YMo-5o-cgw" id="gHZ-h5-oD9"/>
+                        <outlet property="latestVersionButton" destination="Tlj-Qi-Ega" id="6Ob-ND-ROF"/>
+                    </connections>
                 </viewController>
                 <customObject id="IxY-D3-QxB" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="5bC-O3-Tf9"/>
@@ -1032,7 +1047,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </customView>
             </objects>
-            <point key="canvasLocation" x="786" y="1383"/>
+            <point key="canvasLocation" x="783" y="1390"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="HaC-tw-CK6">
@@ -1110,9 +1125,11 @@ Gw
         </scene>
     </scenes>
     <resources>
-        <image name="MongoDB-Icon" width="256" height="256"/>
+        <image name="Gear-Icon" width="16" height="16"/>
         <image name="NSApplicationIcon" width="128" height="128"/>
         <image name="NSSmartBadgeTemplate" width="14" height="14"/>
         <image name="NSStatusUnavailable" width="16" height="16"/>
+        <image name="Question-Icon" width="16" height="16"/>
+        <image name="Server-Logo" width="256" height="256"/>
     </resources>
 </document>

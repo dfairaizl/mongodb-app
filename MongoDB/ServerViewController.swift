@@ -16,6 +16,8 @@ class ServerViewController: NSViewController {
    @IBOutlet weak var serverStopButton: NSButton!
    @IBOutlet weak var serverStatusImageView: NSImageView!
    
+   @IBOutlet weak var serverStatusLabelConstraint: NSLayoutConstraint!
+    
    var uiEnabled: Bool = false
     
    override func viewDidLoad() {
@@ -88,8 +90,11 @@ class ServerViewController: NSViewController {
    
    func enableUI() {
       
-      self.serverStatusLabel.stringValue = "Running on port \(MongoDB.sharedServer.port)"
+      self.serverStatusLabel.stringValue = "Port \(MongoDB.sharedServer.port)"
       self.serverStatusImageView.image = NSImage(named: NSImageNameStatusAvailable)
+      
+      self.serverStatusLabelConstraint.constant = 60
+      self.view.layoutSubtreeIfNeeded()
       
       self.animateIcon(from: 0.8, to: 0.0)
       
@@ -100,6 +105,9 @@ class ServerViewController: NSViewController {
       
       self.serverStatusLabel.stringValue = "Not connected"
       self.serverStatusImageView.image = NSImage(named: NSImageNameStatusUnavailable)
+      
+      self.serverStatusLabelConstraint.constant = 85
+      self.view.layoutSubtreeIfNeeded()
       
       self.animateIcon(from: 0.0, to: 0.8)
       
