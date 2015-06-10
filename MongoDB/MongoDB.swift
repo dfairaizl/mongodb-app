@@ -114,7 +114,12 @@ class MongoDB: NSObject {
     }
     
     func isRunning() -> Bool {
-        return self.process? != nil
+        if let process = self.process {
+            return true
+        }
+        else {
+            return false
+        }
     }
     
     func defaultDatabaseDirectory() -> String? {
@@ -198,7 +203,7 @@ class MongoDB: NSObject {
             
             self.processPipe = NSPipe()
             
-            self.process = NSTask.runProcess(mongod, pipe: self.processPipe!, withArguments: args, { (out: String) -> Void in
+            self.process = NSTask.runProcess(mongod, pipe: self.processPipe!, withArguments: args, completion: { (out: String) -> Void in
                 // NOTE - There is no stdout from mongod when it started successfully in the foreground (output goes to log)
             })
             
@@ -258,8 +263,8 @@ class MongoDB: NSObject {
                 defaultValues.setValue(self.defaultDatabaseDirectory(), forKey: "databasePath")
                 defaultValues.setValue(self.defaultLogDirectory(), forKey: "logPath")
 
-                userDefaults.registerDefaults(defaultValues)
-                NSUserDefaultsController.sharedUserDefaultsController().initialValues = defaultValues
+                userDefaults.registerDefaults(defaultValues as [NSObject : AnyObject])
+                NSUserDefaultsController.sharedUserDefaultsController().initialValues = defaultValues as [NSObject : AnyObject]
             }
         }
     }
@@ -290,12 +295,10 @@ class MongoDB: NSObject {
     }
     
     func ensureStartup(startup: Bool) {
-        
-        let itemReferences = itemReferencesInLoginItems()
     
-        if let existingReference = itemReferences.existingReference {
+        if self.startupOnLogin() {
             if startup {
-                //NOOP - we are supposed to start on login and OSX has registered our app
+                //NOOP - helper app set to start on login
             }
             else {
                self.removeStartupItem()
@@ -303,6 +306,26 @@ class MongoDB: NSObject {
         } else if startup {
             self.addStartupItem()
         }
+    }
+    
+    func startupOnLogin() -> Bool {
+        
+        return true
+    }
+    
+    func addStartupItem() {
+        
+        let bundleURL = NSBundle.mainBundle().bundleURL
+        let helperURL = bundleURL.URLByAppendingPathComponent("Contents/Library/LoginItems/MongoDBHelper.app")
+        let ref: CFURL = helperURL as CFURL!
+        
+//        if LSRegisterURL(helperURL as? CFURL, true) {
+//            
+//        }
+    }
+    
+    func removeStartupItem() {
+        
     }
     
     func setUpdates() {
@@ -332,7 +355,7 @@ class MongoDB: NSObject {
         let defaults = NSUserDefaults.standardUserDefaults()
         
         self.version = defaults.stringForKey("mongodbVersion")
-        self.versions = defaults.arrayForKey("availableVersions") as Array<String>
+        self.versions = defaults.arrayForKey("availableVersions") as! Array<String>
     }
     
     func mongoDBDirectory(directory: String) -> NSURL? {
@@ -349,87 +372,5 @@ class MongoDB: NSObject {
         }
         
         return appSupportDir
-    }
-    
-    func applicationIsInStartUpItems() -> Bool {
-        return (itemReferencesInLoginItems().existingReference != nil)
-    }
-    
-    func itemReferencesInLoginItems() -> (existingReference: LSSharedFileListItemRef?, lastReference: LSSharedFileListItemRef?) {
-        
-        var itemUrl : UnsafeMutablePointer<Unmanaged<CFURL>?> = UnsafeMutablePointer<Unmanaged<CFURL>?>.alloc(1)
-        
-        if let appUrl : NSURL = NSURL.fileURLWithPath(NSBundle.mainBundle().bundlePath) {
-            let loginItemsRef = LSSharedFileListCreate(nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil).takeRetainedValue() as LSSharedFileListRef?
-
-            if loginItemsRef != nil {
-                let loginItems: NSArray = LSSharedFileListCopySnapshot(loginItemsRef, nil).takeRetainedValue() as NSArray
-
-                if(loginItems.count > 0) {
-                    let lastItemRef: LSSharedFileListItemRef = loginItems.lastObject as LSSharedFileListItemRef
-                    
-                    for var i = 0; i < loginItems.count; ++i {
-                        
-                        let currentItemRef: LSSharedFileListItemRef = loginItems.objectAtIndex(i) as LSSharedFileListItemRef
-                        if LSSharedFileListItemResolve(currentItemRef, 0, itemUrl, nil) == noErr {
-                            if let urlRef: NSURL =  itemUrl.memory?.takeRetainedValue() {
-
-                                if urlRef.isEqual(appUrl) {
-                                    return (currentItemRef, lastItemRef)
-                                }
-                            }
-                        }
-                    }
-                    
-                    //The application was not found in the startup list
-                    return (nil, lastItemRef)
-                }
-                else {
-                    let addatstart: LSSharedFileListItemRef = kLSSharedFileListItemBeforeFirst.takeRetainedValue()
-                    
-                    return(nil, addatstart)
-                }
-            }
-        }
-        
-        return (nil, nil)
-    }
-    
-    func addStartupItem() {
-        
-        let itemReferences = itemReferencesInLoginItems()
-        let loginItemsRef = LSSharedFileListCreate(nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil).takeRetainedValue() as LSSharedFileListRef?
-        
-        if loginItemsRef != nil {
-            
-            if let appUrl : CFURLRef = NSURL.fileURLWithPath(NSBundle.mainBundle().bundlePath) {
-                LSSharedFileListInsertItemURL(loginItemsRef, itemReferences.lastReference, nil, nil, appUrl, nil, nil)
-            }
-        }
-    }
-    
-    func removeStartupItem() {
-        
-        let itemReferences = itemReferencesInLoginItems()
-        let loginItemsRef = LSSharedFileListCreate(nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil).takeRetainedValue() as LSSharedFileListRef?
-        
-        if loginItemsRef != nil {
-
-            if let itemRef = itemReferences.existingReference {
-                LSSharedFileListItemRemove(loginItemsRef, itemRef);
-            }
-        }
-    }
-    
-    // MARK: TO DO
-    
-    func checkForUpdate() {
-        NSLog("Checking for updates")
-        
-        // if update self.notifyOfUpdate()
-    }
-    
-    func notifyOfUpdate(versionData: NSDictionary) {
-        
     }
 }
