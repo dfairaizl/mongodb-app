@@ -63,6 +63,28 @@ class MongoDB: NSObject {
         return self.versions[0]
     }
     
+    func currentStorageEngine() -> String? {
+        return self.selectedStorageEngine
+    }
+    
+    func switchStorageEngine(storageEngine: String) {
+        
+        self.stopServer()
+        
+        let fileManager = NSFileManager.defaultManager()
+        var error: NSError? = nil
+        
+        let dbURL = self.mongoDBDirectory("db")!
+        let enumerator = fileManager.enumeratorAtURL(dbURL, includingPropertiesForKeys: nil, options: nil, errorHandler: nil)
+        while let file = enumerator?.nextObject() as? NSURL {
+            fileManager.removeItemAtURL(file, error: nil)
+        }
+    
+        self.selectedStorageEngine = storageEngine
+        
+        MongoDB.sharedServer.startServer()
+    }
+    
     func hasVersionAvailable(version: String) -> Bool {
         
         if contains(self.versions, version) {

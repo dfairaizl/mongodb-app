@@ -33,6 +33,7 @@ class PreferencesViewController: NSViewController, DownloadDelegate {
         defaultsController.addObserver(self, forKeyPath: "values.databasePath", options: NSKeyValueObservingOptions.New, context: nil)
         defaultsController.addObserver(self, forKeyPath: "values.logPath", options: NSKeyValueObservingOptions.New, context: nil)
         defaultsController.addObserver(self, forKeyPath: "values.mongodbVersion", options: NSKeyValueObservingOptions.New, context: nil)
+        defaultsController.addObserver(self, forKeyPath: "values.selectedStorageEngine", options: NSKeyValueObservingOptions.New, context: nil)
     }
     
     override func viewDidDisappear() {
@@ -43,6 +44,7 @@ class PreferencesViewController: NSViewController, DownloadDelegate {
         defaultsController.removeObserver(self, forKeyPath: "values.databasePath")
         defaultsController.removeObserver(self, forKeyPath: "values.logPath")
         defaultsController.removeObserver(self, forKeyPath: "values.mongodbVersion")
+        defaultsController.removeObserver(self, forKeyPath: "values.selectedStorageEngine")
     }
     
     // MARK: KVO Methods
@@ -71,6 +73,11 @@ class PreferencesViewController: NSViewController, DownloadDelegate {
         else if keyPath == "values.mongodbVersion" {
             if let version = MongoDB.sharedServer.preferenceForKey("mongodbVersion") {
                 self.enableVersionChange(version)
+            }
+        }
+        else if keyPath == "values.selectedStorageEngine" {
+            if let storageEngine = MongoDB.sharedServer.preferenceForKey("selectedStorageEngine") {
+                self.promptEngineChange(storageEngine)
             }
         }
     }
@@ -221,6 +228,31 @@ class PreferencesViewController: NSViewController, DownloadDelegate {
             else {
                 self.changeVersionButton.enabled = false
                 self.latestVersionButton.enabled = false
+            }
+        }
+    }
+    
+    func promptEngineChange(selectedEngine: String) {
+        
+        if let currentEngine = MongoDB.sharedServer.currentStorageEngine() {
+            if currentEngine != selectedEngine {
+                
+                var engineAlert = NSAlert()
+                engineAlert.addButtonWithTitle("Change")
+                engineAlert.addButtonWithTitle("Cancel")
+                engineAlert.messageText = "Change to \(selectedEngine) storage engine?"
+                engineAlert.informativeText = "Changing to \(selectedEngine) will cause the current database to be destroyed. Do you wish to proceed?"
+                engineAlert.alertStyle = NSAlertStyle.InformationalAlertStyle
+                
+                engineAlert.beginSheetModalForWindow(self.view.window!, completionHandler: { (response) -> Void in
+                    
+                    if response == NSAlertFirstButtonReturn {
+                        MongoDB.sharedServer.switchStorageEngine(selectedEngine)
+                        MongoDB.sharedServer.setPreference(selectedEngine, forKey: "selectedStorageEngine")
+                    } else if response == NSAlertSecondButtonReturn {
+                        MongoDB.sharedServer.setPreference(currentEngine, forKey: "selectedStorageEngine")
+                    }
+                })
             }
         }
     }
