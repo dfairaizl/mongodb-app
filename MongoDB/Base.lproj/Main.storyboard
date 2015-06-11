@@ -848,7 +848,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qYa-UJ-eqi">
-                                <rect key="frame" x="34" y="167" width="302" height="22"/>
+                                <rect key="frame" x="34" y="176" width="302" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="/db" drawsBackground="YES" id="OpB-sA-1ZE">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -859,7 +859,7 @@
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vws-zm-jqZ">
-                                <rect key="frame" x="32" y="194" width="93" height="17"/>
+                                <rect key="frame" x="32" y="203" width="93" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Data Directory" id="G3i-9R-4in">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -867,7 +867,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CKB-8X-c4Y">
-                                <rect key="frame" x="333" y="166" width="29" height="24"/>
+                                <rect key="frame" x="333" y="175" width="29" height="24"/>
                                 <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSSmartBadgeTemplate" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="eIy-xF-bRk">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -877,7 +877,7 @@
                                 </connections>
                             </button>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ftg-jc-qp9">
-                                <rect key="frame" x="34" y="115" width="302" height="22"/>
+                                <rect key="frame" x="34" y="124" width="302" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="/log" drawsBackground="YES" id="dBK-l0-gm7">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -888,7 +888,7 @@
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gxO-3u-96n">
-                                <rect key="frame" x="32" y="142" width="87" height="17"/>
+                                <rect key="frame" x="32" y="151" width="87" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Log Directory" id="61D-Bc-Dca">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -896,7 +896,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TwX-eB-ZpA">
-                                <rect key="frame" x="333" y="114" width="29" height="24"/>
+                                <rect key="frame" x="333" y="123" width="29" height="24"/>
                                 <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSSmartBadgeTemplate" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ExL-UG-Hlp">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -940,7 +940,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5YY-GR-1dX">
-                                <rect key="frame" x="18" y="228" width="63" height="17"/>
+                                <rect key="frame" x="18" y="237" width="63" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Database" id="nTR-wJ-OGx">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -948,7 +948,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eqr-kx-Sap">
-                                <rect key="frame" x="364" y="161" width="84" height="32"/>
+                                <rect key="frame" x="364" y="170" width="84" height="32"/>
                                 <buttonCell key="cell" type="push" title="Default" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Xxm-Fw-gMS">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -958,7 +958,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BXS-so-iMM">
-                                <rect key="frame" x="364" y="109" width="84" height="32"/>
+                                <rect key="frame" x="364" y="118" width="84" height="32"/>
                                 <buttonCell key="cell" type="push" title="Default" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dzb-xR-LgD">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -968,13 +968,13 @@
                                 </connections>
                             </button>
                             <box verticalHuggingPriority="750" fixedFrame="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="XRb-Hn-Xww">
-                                <rect key="frame" x="20" y="217" width="422" height="5"/>
+                                <rect key="frame" x="20" y="226" width="422" height="5"/>
                                 <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                 <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <font key="titleFont" metaFont="system"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o5O-MT-YYc">
-                                <rect key="frame" x="18" y="69" width="50" height="17"/>
+                                <rect key="frame" x="18" y="87" width="50" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Version" id="Ul5-Z4-S7X">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -982,7 +982,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rp5-1G-9Qd">
-                                <rect key="frame" x="32" y="31" width="115" height="17"/>
+                                <rect key="frame" x="32" y="49" width="115" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="MongoDB Version" id="EC4-Ga-HF5">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -990,13 +990,13 @@
                                 </textFieldCell>
                             </textField>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ov1-2T-bQa">
-                                <rect key="frame" x="151" y="26" width="80" height="26"/>
-                                <popUpButtonCell key="cell" type="push" title="2.6.7" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Yhy-3D-hNF" id="CZP-lh-GQH">
+                                <rect key="frame" x="151" y="44" width="103" height="26"/>
+                                <popUpButtonCell key="cell" type="push" title="3.0.3" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Yhy-3D-hNF" id="CZP-lh-GQH">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="LFz-p6-T5S">
                                         <items>
-                                            <menuItem title="2.6.7" state="on" id="Yhy-3D-hNF"/>
+                                            <menuItem title="3.0.3" state="on" id="Yhy-3D-hNF"/>
                                             <menuItem title="2.4.12" id="CG7-51-10d"/>
                                             <menuItem title="Other" id="U9D-3P-4rE"/>
                                         </items>
@@ -1008,7 +1008,7 @@
                                 </connections>
                             </popUpButton>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YMo-5o-cgw">
-                                <rect key="frame" x="242" y="22" width="88" height="32"/>
+                                <rect key="frame" x="281" y="40" width="88" height="32"/>
                                 <buttonCell key="cell" type="push" title="Change" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="XmZ-7l-MSv">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1018,7 +1018,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tlj-Qi-Ega">
-                                <rect key="frame" x="330" y="22" width="79" height="32"/>
+                                <rect key="frame" x="369" y="40" width="79" height="32"/>
                                 <buttonCell key="cell" type="push" title="Latest" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8os-IZ-dWI">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1028,11 +1028,36 @@
                                 </connections>
                             </button>
                             <box verticalHuggingPriority="750" fixedFrame="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="4Ui-9P-C6s">
-                                <rect key="frame" x="22" y="58" width="420" height="5"/>
+                                <rect key="frame" x="22" y="76" width="420" height="5"/>
                                 <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                 <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <font key="titleFont" metaFont="system"/>
                             </box>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eGq-HV-Z6v">
+                                <rect key="frame" x="32" y="22" width="99" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Storage Engine" id="pFw-xd-CBC">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tf4-3W-jdZ">
+                                <rect key="frame" x="151" y="17" width="103" height="26"/>
+                                <popUpButtonCell key="cell" type="push" title="WiredTiger" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="ieb-0H-BNR" id="G3g-Ot-xll">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="rWA-Ap-IFt">
+                                        <items>
+                                            <menuItem title="WiredTiger" state="on" id="ieb-0H-BNR"/>
+                                            <menuItem title="mmapv1" id="VH1-Q8-Mtw"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <binding destination="5bC-O3-Tf9" name="contentValues" keyPath="values.storageEngines" id="Jgy-5U-Rpy"/>
+                                    <binding destination="5bC-O3-Tf9" name="selectedObject" keyPath="values.selectedStorageEngine" previousBinding="Jgy-5U-Rpy" id="vrI-rW-1zn"/>
+                                </connections>
+                            </popUpButton>
                         </subviews>
                     </view>
                     <connections>

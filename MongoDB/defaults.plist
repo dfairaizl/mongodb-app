@@ -2,6 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>selectedStorageEngine</key>
+	<string>wiredTiger</string>
+	<key>storageEngines</key>
+	<array>
+		<string>wiredTiger</string>
+		<string>mmapv1</string>
+	</array>
 	<key>mongodbVersion</key>
 	<string>3.0.3</string>
 	<key>availableVersions</key>

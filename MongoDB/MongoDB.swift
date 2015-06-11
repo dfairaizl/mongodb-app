@@ -17,6 +17,8 @@ class MongoDB: NSObject {
     var processPipe: NSPipe?
     
     var databasePath: String?
+    var storageEngines: Array<String> = []
+    var selectedStorageEngine: String?
     var logPath: String?
     var port: String = "27017"
     var runOnStartup: Bool?
@@ -33,6 +35,7 @@ class MongoDB: NSObject {
         
         // Read the runtime values from defaults to start server
         self.initDatabase()
+        self.initStorageEngine()
         self.initLog()
         self.setStartup()
         self.setUpdates()
@@ -80,8 +83,8 @@ class MongoDB: NSObject {
             if let log = self.logPath {
                 
                 if self.spawnProcess(databasePath: db, logPath: log) {
-                
-                    NSNotificationCenter.defaultCenter().postNotificationName("ServerStartedSuccessfullyNotification", object: nil)
+                    let nc = NSNotificationCenter.defaultCenter()
+                    nc.postNotificationName("ServerStartedSuccessfullyNotification", object: nil)
                 }
             }
         }
@@ -199,7 +202,13 @@ class MongoDB: NSObject {
         }
         
         if let mongod = self.mongodPath() {
-            let args = ["--dbpath=\(databasePath)", "--logpath", "\(logPath)", "--port", self.port, "--logappend"]
+            let args = [
+                "--dbpath=\(databasePath)",
+                "--storageEngine", self.selectedStorageEngine!,
+                "--logpath", "\(logPath)",
+                "--port", self.port,
+                "--logappend"
+            ]
             
             self.processPipe = NSPipe()
             
@@ -207,7 +216,7 @@ class MongoDB: NSObject {
                 // NOTE - There is no stdout from mongod when it started successfully in the foreground (output goes to log)
             })
             
-            return true
+            return self.process != nil
         }
         
         return false
@@ -258,6 +267,8 @@ class MongoDB: NSObject {
                 defaultValues.setValue(dict["availableVersions"], forKey: "availableVersions")
                 defaultValues.setValue(dict["autoStartup"], forKey: "autoStartup")
                 defaultValues.setValue(dict["autoUpdate"], forKey: "autoUpdate")
+                defaultValues.setValue(dict["selectedStorageEngine"], forKey: "selectedStorageEngine")
+                defaultValues.setValue(dict["storageEngines"], forKey: "storageEngines")
                 
                 // Add runtime settings
                 defaultValues.setValue(self.defaultDatabaseDirectory(), forKey: "databasePath")
@@ -273,6 +284,13 @@ class MongoDB: NSObject {
         let defaults = NSUserDefaults.standardUserDefaults()
         
         self.databasePath = defaults.stringForKey("databasePath")
+    }
+    
+    func initStorageEngine() {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        self.selectedStorageEngine = defaults.stringForKey("selectedStorageEngine")
+        self.storageEngines = defaults.arrayForKey("storageEngines") as! Array<String>
     }
     
     func initLog() {
