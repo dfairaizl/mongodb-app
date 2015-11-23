@@ -1,4 +1,4 @@
-import {join} from 'path';
+import {join, resolve} from 'path';
 
 // Electron
 import app from 'app';
@@ -11,7 +11,7 @@ crashReporter.start();
 let mainWindow = null;
 
 // App Globals
-const APP_URL = 'file://' + join(__dirname, '..', 'static', 'index.html');
+const APP_URL = 'file:///Users/fairaizld/Development/Projects/mongodb-app/app/index.html';
 
 export default class MongoDB {
   constructor() {
@@ -31,7 +31,10 @@ export default class MongoDB {
 
     mainWindow = new BrowserWindow(opts);
 
+    console.log(APP_URL);
     mainWindow.loadURL(APP_URL);
+
+    mainWindow.webContents.openDevTools();
 
     mainWindow.on('closed', () => {
       mainWindow = null;

@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(__dirname, process, global) {'use strict';
+	/* WEBPACK VAR INJECTION */(function(process, global) {'use strict';
 
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -78,7 +78,7 @@
 	var mainWindow = null;
 
 	// App Globals
-	var APP_URL = 'file://' + (0, _path.join)(__dirname, '..', 'static', 'index.html');
+	var APP_URL = 'file:///Users/fairaizld/Development/Projects/mongodb-app/app/index.html';
 
 	var MongoDB = (function () {
 	  function MongoDB() {
@@ -102,7 +102,10 @@
 
 	      mainWindow = new _browserWindow2.default(opts);
 
+	      console.log(APP_URL);
 	      mainWindow.loadURL(APP_URL);
+
+	      mainWindow.webContents.openDevTools();
 
 	      mainWindow.on('closed', function () {
 	        mainWindow = null;
@@ -123,7 +126,7 @@
 	exports.default = MongoDB;
 
 	global.MongoDB = new MongoDB();
-	/* WEBPACK VAR INJECTION */}.call(exports, "/", __webpack_require__(1), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), (function() { return this; }())))
 
 /***/ },
 /* 1 */
@@ -457,19 +460,19 @@
 /* 3 */
 /***/ function(module, exports) {
 
-	module.exports = require("app");
+	module.exports = require('app');
 
 /***/ },
 /* 4 */
 /***/ function(module, exports) {
 
-	module.exports = browser-window;
+	module.exports = require('browser-window');
 
 /***/ },
 /* 5 */
 /***/ function(module, exports) {
 
-	module.exports = crash-reporter;
+	module.exports = require('crash-reporter');
 
 /***/ }
 /******/ ]);

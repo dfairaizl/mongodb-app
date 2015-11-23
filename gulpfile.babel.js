@@ -9,14 +9,22 @@ gulp.task('default', () => {
       .pipe(runElectron());
 });
 
-gulp.task('build', ['copy', 'bundle']);
+gulp.task('build', ['copy:package', 'copy:static', 'bundle']);
 
-gulp.task('copy', () => {
+gulp.task('copy:package', () => {
   gulp.src([
-    './src/static/index.html',
     './package.json',
   ], {
     base: '.',
+  })
+  .pipe(gulp.dest('./app'));
+});
+
+gulp.task('copy:static', () => {
+  gulp.src([
+    './src/static/index.html',
+  ], {
+    base: './src/static',
   })
   .pipe(gulp.dest('./app'));
 });
@@ -25,7 +33,7 @@ gulp.task('bundle', (done) => {
   webpack({
     entry: {
       main: './src/main/main.js',
-      // render: './src/render/render.js',
+      render: './src/render/render.js',
     },
     output: {
       path: './app/scripts',
@@ -52,9 +60,6 @@ gulp.task('bundle', (done) => {
     externals: [
       (() => {
         const IGNORE = [
-          // Node
-          'fs',
-          'path',
           // Electron
           'crash-reporter',
           'app',
