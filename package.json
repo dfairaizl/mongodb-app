@@ -1,10 +1,14 @@
 {
   "name": "mongodb-app",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "MongoDB GUI client for OSX/Windows/Linux",
-  "main": "scripts/main.js",
+  "main": "main.js",
+  "bin": {
+    "electron": "./node_modules/.bin/electron"
+  },
   "scripts": {
-    "test": "npm test"
+    "test": "npm test",
+    "start": "electron build/"
   },
   "keywords": [
     "mongodb",
@@ -27,9 +31,7 @@
     "electron-prebuilt": "^0.35.0",
     "eslint": "^1.9.0",
     "eslint-config-airbnb": "^1.0.0",
-    "gulp": "^3.9.0",
-    "gulp-run-electron": "^1.2.2",
-    "gulp-util": "^3.0.7",
+    "file-loader": "^0.8.4",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "webpack": "^1.12.6"
