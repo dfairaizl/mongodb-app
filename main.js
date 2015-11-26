@@ -1,4 +1,5 @@
 import './package.json';
+import './src/index.html';
 
 // Electron
 import app from 'app';
@@ -11,7 +12,7 @@ crashReporter.start();
 let mainWindow = null;
 
 // App Globals
-const APP_URL = 'file://' + __dirname + '/app/index.html';
+const APP_URL = 'file://' + __dirname + '/index.html';
 
 export default class MongoDB {
   constructor() {

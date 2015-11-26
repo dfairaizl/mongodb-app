@@ -1,7 +1,7 @@
 module.exports = {
   entry: {
     main: './main.js',
-    // render: './src/render/render.js',
+    render: './src/render.js',
   },
   output: {
     path: './build',
@@ -20,6 +20,10 @@ module.exports = {
       },
       {
         test: /\.json$/,
+        loader: 'file?name=[name].[ext]',
+      },
+      {
+        test: /\.html$/,
         loader: 'file?name=[name].[ext]',
       },
     ],
