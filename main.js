@@ -1,5 +1,5 @@
 import './package.json';
-import './src/index.html';
+import './src/static/index.html';
 
 // Electron
 import app from 'app';

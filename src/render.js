@@ -1,6 +1,7 @@
 import {React, createElement} from 'react';
 import {render} from 'react-dom';
 import Root from './containers/root';
+import './app.scss';
 
 export default class App {
   constructor() {
