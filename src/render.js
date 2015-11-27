@@ -1,12 +1,21 @@
-import {React, createElement} from 'react';
+import React from 'react';
 import {render} from 'react-dom';
-import Root from './containers/root';
+import App from './containers/App';
+import {Provider} from 'react-redux';
+import configureStore from './store/configureStore';
 import './app.scss';
 
-export default class App {
+const store = configureStore();
+
+export default class MongoDBApp {
   constructor() {
-    render(createElement(Root, {}), document.body);
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+      document.getElementById('root')
+    );
   }
 }
 
-global.App = new App();
+global.MongoDBRenderer = new MongoDBApp();

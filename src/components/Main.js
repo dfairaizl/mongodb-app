@@ -1,10 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 
 const propTypes = {
-  prop: PropTypes.object.isRequired,
+  startServer: PropTypes.func.isRequired,
 };
 
-export default class Root extends Component {
+export default class Main extends Component {
+  componentDidMount() {
+    this.props.startServer();
+  }
   render() {
     return (
       <main>
@@ -18,4 +21,4 @@ export default class Root extends Component {
   }
 }
 
-Root.propTypes = propTypes;
+Main.propTypes = propTypes;

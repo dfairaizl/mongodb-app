@@ -6,9 +6,7 @@ import './src/resources/MongoDB-App@2x.png';
 import {resolve} from 'path';
 
 // Electron
-import app from 'app';
-import BrowserWindow from 'browser-window';
-import crashReporter from 'crash-reporter';
+import {app, BrowserWindow, crashReporter, ipcMain} from 'electron';
 
 crashReporter.start();
 
@@ -22,10 +20,13 @@ export default class MongoDB {
   constructor() {
     this.onReady = this.onReady.bind(this);
     this.onWindowAllClosed = this.onWindowAllClosed.bind(this);
+    this.onStartServer = this.onStartServer.bind(this);
 
     // register electron listeners
     app.on('ready', this.onReady);
     app.on('window-all-closed', this.onWindowAllClosed);
+
+    ipcMain.on('start-server', this.onStartServer);
   }
 
   onReady() {
@@ -54,6 +55,10 @@ export default class MongoDB {
       app.quit();
     }
   }
+
+  onStartServer(event, arg) {
+    console.log('main - starting mongod server');
+  }
 }
 
-global.MongoDB = new MongoDB();
+global.MongoDBMain = new MongoDB();

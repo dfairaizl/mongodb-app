@@ -50,5 +50,6 @@ module.exports = {
     'app',
     'browser-window',
     'crash-reporter',
+    'electron',
   ],
 };
