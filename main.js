@@ -26,8 +26,8 @@ export default class MongoDB {
 
   onReady() {
     const opts = {
-      width: 400,
-      height: 400,
+      width: 300,
+      height: 325,
     };
 
     mainWindow = new BrowserWindow(opts);

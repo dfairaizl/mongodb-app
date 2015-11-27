@@ -27,6 +27,10 @@ module.exports = {
         loader: 'file?name=[name].[ext]',
       },
       {
+        test: /\.png$/,
+        loader: 'file?name=resources/[name].[ext]',
+      },
+      {
         test: /\.scss$/,
         loaders: ['style', 'css', 'sass'],
       },

@@ -7,7 +7,10 @@ const propTypes = {
 export default class Root extends Component {
   render() {
     return (
-      <div>Hello World</div>
+      <main>
+        <button className="settings" />
+        <button className="help" />
+      </main>
     );
   }
 }

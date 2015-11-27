@@ -1,4 +1,37 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
 body {
-  background-color: gray;
-  color: red;
+  background: url('./resources/MongoDB-Transparent.png') center no-repeat;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+main {
+  align-items: flex-end;
+  align-content: stretch;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  justify-content: flex-start;
+  width: 100%;
+
+  button {
+    border: none;
+    height: 24px;
+    margin: 10px;
+    width: 24px;
+
+    &.settings {
+      background: url('./resources/iconmonstr-gear-6-icon-16.png') center no-repeat;
+    }
+
+    &.help {
+      margin-left: auto;
+      background: url('./resources/iconmonstr-help-icon-16-3.png') center no-repeat;
+    }
+  }
 }
