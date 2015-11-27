@@ -1,14 +1,9 @@
 import {ipcRenderer} from 'electron';
-
-export const SERVER_STARTED = 'SERVER_STARTED';
-export const SERVER_STOPPED = 'SERVER_STOPPED';
-
-export const START_SERVER = 'START_SERVER';
-export const STOP_SERVER = 'STOP_SERVER';
+import * as ServerTypes from '../constants/ServerTypes';
 
 export function serverStarted(status) {
   return {
-    type: SERVER_STARTED,
+    type: ServerTypes.SERVER_STARTED,
     status: status,
   };
 }
