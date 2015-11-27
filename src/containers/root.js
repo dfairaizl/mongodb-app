@@ -8,8 +8,11 @@ export default class Root extends Component {
   render() {
     return (
       <main>
-        <button className="settings" />
-        <button className="help" />
+        <div className="logo" ref="logo" />
+        <div className="controls">
+          <button className="settings" />
+          <button className="help" />
+        </div>
       </main>
     );
   }
