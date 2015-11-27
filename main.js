@@ -1,5 +1,9 @@
 import './package.json';
 import './src/static/index.html';
+import './src/resources/MongoDB-App.png';
+import './src/resources/MongoDB-App@2x.png';
+
+import {resolve} from 'path';
 
 // Electron
 import app from 'app';
@@ -28,6 +32,11 @@ export default class MongoDB {
     const opts = {
       width: 300,
       height: 325,
+      title: 'MongoDB.app',
+      resizable: false,
+      fullscreen: false,
+      titleBarStyle: 'hidden-inset',
+      icon: resolve(__dirname, 'resources', 'MongoDB-App.png'),
     };
 
     mainWindow = new BrowserWindow(opts);
