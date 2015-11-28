@@ -1,5 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 
+import './app.scss';
+
 const propTypes = {
   startServer: PropTypes.func.isRequired,
 };

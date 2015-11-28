@@ -1,9 +1,8 @@
 import React from 'react';
 import {render} from 'react-dom';
-import App from './containers/App';
+import App from './app/containers/App';
 import {Provider} from 'react-redux';
-import configureStore from './store/configureStore';
-import './app.scss';
+import configureStore from './app/store/configureStore';
 
 const initialState = {
   server: {

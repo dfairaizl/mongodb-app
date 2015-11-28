@@ -1,10 +1,10 @@
 module.exports = {
   entry: {
     main: './main.js',
-    render: './src/render.js',
+    render: './renderer.js',
   },
   output: {
-    path: './build',
+    path: './dist',
     filename: '[name].js',
     libraryTarget: 'commonjs2',
   },

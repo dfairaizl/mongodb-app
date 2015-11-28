@@ -18,7 +18,7 @@ main {
   .logo {
     align-self: center;
     background-color: rgba(255, 255, 255, 0);
-    background-image: url('./resources/MongoDB-Transparent.png');
+    background-image: url('../../resources/MongoDB-Transparent.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -43,12 +43,12 @@ main {
       width: 16px;
 
       &.settings {
-        background-image: url('./resources/settings-icon.png');
+        background-image: url('../../resources/settings-icon.png');
       }
 
       &.help {
         margin-left: auto;
-        background-image: url('./resources/help-icon.png');
+        background-image: url('../../resources/help-icon.png');
       }
     }
   }
@@ -61,16 +61,16 @@ main {
 
   main {
     .logo {
-      background-image: url('./resources/MongoDB-Transparent@2x.png');
+      background-image: url('../../resources/MongoDB-Transparent@2x.png');
     }
 
     .controls {
       button.settings {
-        background-image: url('./resources/settings-icon@2x.png');
+        background-image: url('../../resources/settings-icon@2x.png');
       }
 
       button.help {
-        background-image: url('./resources/help-icon@2x.png');
+        background-image: url('../../resources/help-icon@2x.png');
       }
     }
   }
