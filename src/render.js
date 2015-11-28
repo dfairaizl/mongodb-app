@@ -5,7 +5,17 @@ import {Provider} from 'react-redux';
 import configureStore from './store/configureStore';
 import './app.scss';
 
-const store = configureStore();
+const initialState = {
+  server: {
+    status: 'stopped',
+    databasePath: '/',
+    logPath: '/',
+    port: '27017',
+    storageEngine: 'wiredTiger',
+  },
+};
+
+const store = configureStore(initialState);
 
 export default class MongoDBApp {
   constructor() {
