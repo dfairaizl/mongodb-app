@@ -25,7 +25,7 @@ export default class AppWindow {
 
     this.registerEvents();
 
-    this.mongod = new MongoDB();
+    this.mongodb = new MongoDB();
   }
 
   registerEvents() {
@@ -50,5 +50,6 @@ export default class AppWindow {
 
   onStartServer() {
     console.log('main - starting mongod server');
+    this.mongodb.startServer();
   }
 }

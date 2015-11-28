@@ -1,8 +1,8 @@
 // Webpack
 import '../../resources/defaults.json';
 
-import {readFileSync, writeFileSync} from 'fs';
-import {sync as mkdirp} from 'mkdirp';
+import {mkdirp, readFileSync, writeFileSync} from 'fs.extra';
+import {spawn} from 'child_process';
 import {resolve, join} from 'path';
 import {app} from 'electron';
 
@@ -51,5 +51,42 @@ export default class MongoDB {
     writeFileSync(settingsPath, JSON.stringify(userSettings));
 
     this.settings = userSettings;
+  }
+
+  startServer() {
+    this.spawnProcess(this.settings.databasePath, this.settings.logPath);
+  }
+  
+  spawnProcess(databasePath, logPath) {
+    // lockfile check
+    const mongod = this.mongodPath();
+
+    const args = [
+      `--dbpath=${databasePath}`,
+      `--logpath=${logPath}`,
+      `--port=${this.settings.port}`,
+      `--storageEngine=${this.settings.currentStorageEngine}`,
+      `--logappend`,
+    ];
+
+    this.process = spawn(mongod, args);
+
+    this.process.stdout.on('data', (data) => {
+      // There is no stdout from mongod when it started successfully in the foreground (output goes to log)
+      console.log('stdout: ' + data);
+    });
+
+    this.process.stderr.on('data', (data) => {
+      console.log('stderr: ' + data);
+    });
+
+    this.process.on('close', (code) => {
+      console.log('child process exited with code ' + code);
+    });
+  }
+
+  mongodPath() {
+    const binPath = resolve(app.getAppPath(), 'bin');
+    return join(binPath, 'mongod');
   }
 }

@@ -47,7 +47,9 @@ module.exports = {
     __dirname: false,
   },
   externals: [
+    'child_process',
     'fs',
+    'graceful-fs',
     'app',
     'browser-window',
     'crash-reporter',
