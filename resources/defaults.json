@@ -1,0 +1,16 @@
+{
+  "storageEngines": [
+    "wiredTiger",
+    "mmapv1"
+  ],
+  "availableVersions": [
+    "3.0.7",
+    "2.6.11",
+    "2.4.14",
+    "2.2.7"
+  ],
+  "currentVersion": "3.0.7",
+  "currentStorageEngine": "wiredTiger",
+  "enableAutoStart": true,
+  "enableAutoUpdate": true
+}

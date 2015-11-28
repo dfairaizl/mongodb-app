@@ -1,5 +1,6 @@
 import {resolve} from 'path';
 import {BrowserWindow, ipcMain} from 'electron';
+import MongoDB from '../server/mongodb';
 
 // App Globals
 let mainWindow = null;
@@ -23,6 +24,8 @@ export default class AppWindow {
     mainWindow = new BrowserWindow(windowOptions);
 
     this.registerEvents();
+
+    this.mongod = new MongoDB();
   }
 
   registerEvents() {

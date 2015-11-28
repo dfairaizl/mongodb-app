@@ -47,6 +47,7 @@ module.exports = {
     __dirname: false,
   },
   externals: [
+    'fs',
     'app',
     'browser-window',
     'crash-reporter',
