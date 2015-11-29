@@ -8,8 +8,8 @@
   },
   "scripts": {
     "test": "npm test",
-    "start": "electron build/",
-    "webpack": "webpack --config webpack.config.js"
+    "start": "electron dist/",
+    "build": "webpack --config webpack.config.js"
   },
   "keywords": [
     "mongodb",
