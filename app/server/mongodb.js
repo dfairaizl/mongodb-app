@@ -56,7 +56,7 @@ export default class MongoDB {
   startServer() {
     this.spawnProcess(this.settings.databasePath, this.settings.logPath);
   }
-  
+
   spawnProcess(databasePath, logPath) {
     // lockfile check
     const mongod = this.mongodPath();
@@ -71,18 +71,22 @@ export default class MongoDB {
 
     this.process = spawn(mongod, args);
 
-    this.process.stdout.on('data', (data) => {
-      // There is no stdout from mongod when it started successfully in the foreground (output goes to log)
-      console.log('stdout: ' + data);
-    });
+    // Register child process events
+    this.process.stdout.on('data', this.onMongodOutput);
+    this.process.stderr.on('data', this.onMongodError);
+    this.process.on('close', this.onMongodExit);
+  }
 
-    this.process.stderr.on('data', (data) => {
-      console.log('stderr: ' + data);
-    });
+  onMongodOutput(data) {
+    console.log('stdout: ' + data);
+  }
 
-    this.process.on('close', (code) => {
-      console.log('child process exited with code ' + code);
-    });
+  onMongodError(data) {
+    console.log('stdout: ' + data);
+  }
+
+  onMongodExit(code) {
+    console.log('mongod exited with code ' + code);
   }
 
   mongodPath() {
