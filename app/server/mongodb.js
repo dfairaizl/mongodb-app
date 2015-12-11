@@ -57,6 +57,10 @@ export default class MongoDB {
     this.spawnProcess(this.settings.databasePath, this.settings.logPath);
   }
 
+  stopServer() {
+    this.haltProcess();
+  }
+
   spawnProcess(databasePath, logPath) {
     // lockfile check
     const mongod = this.mongodPath();
@@ -75,6 +79,10 @@ export default class MongoDB {
     this.process.stdout.on('data', this.onMongodOutput);
     this.process.stderr.on('data', this.onMongodError);
     this.process.on('close', this.onMongodExit);
+  }
+
+  haltProcess() {
+    this.process.kill();
   }
 
   onMongodOutput(data) {

@@ -44,12 +44,15 @@ export default class AppWindow {
     mainWindow.loadURL(APP_URL);
   }
 
+  shutdownApp() {
+    this.mongodb.stopServer();
+  }
+
   onWindowClosed() {
     mainWindow = null;
   }
 
   onStartServer() {
-    console.log('main - starting mongod server');
     this.mongodb.startServer();
   }
 }
